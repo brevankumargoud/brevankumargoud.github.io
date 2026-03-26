@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Revan Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--text-main);
+            transition: all var(--transition-fast);
+        }
+        .contact-link:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.2);
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section class="animate-on-scroll" style="padding: 4rem 0;">
+            <p class="terminal-text" style="margin-bottom: 0.5rem;">> ping revan_kumar</p>
+            <h1 class="section-title">Establish Connection</h1>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2rem;">
+                
+                <!-- Left: Text Core -->
+                <div class="animate-on-scroll">
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Open for collaboration</h3>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                        Whether it's discussing an internship opportunity, collaborating on an offensive security project, or just talking shop about the latest vulnerabilities—I'm always ready to connect.
+                    </p>
+                    
+                    <div style="background: rgba(255, 42, 42, 0.05); padding: 2rem; border-left: 4px solid var(--accent-primary);">
+                        <p style="font-family: monospace; color: var(--accent-secondary); margin-bottom: 0.5rem;">// INBOX_STATUS</p>
+                        <p>Awaiting incoming packets. Response time typically < 24 hours.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Links -->
+                <div class="animate-on-scroll" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <a href="mailto:revankumargoudbommagoni@gmail.com" class="contact-link">
+                        <span style="color: var(--text-muted); font-family: monospace;">[ EMAIL ]</span>
+                        revankumargoudbommagoni@gmail.com
+                    </a>
+                    
+                    <a href="https://github.com/brevankumargoud" target="_blank" class="contact-link">
+                        <span style="color: var(--text-muted); font-family: monospace;">[ GITHUB ]</span>
+                        github.com/brevankumargoud
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/revan-kumar-goud-bommagoni-4398a5362" target="_blank" class="contact-link">
+                        <span style="color: var(--text-muted); font-family: monospace;">[ LINKEDIN ]</span>
+                        Connect on LinkedIn
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "./";</script>
+    <script src="./js/components.js"></script>
+    <script src="./js/cursor.js"></script>
+    <script src="./js/animations.js"></script>
+</body>
+</html>

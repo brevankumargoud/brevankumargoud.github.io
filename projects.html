@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Revan Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            border-radius: 20px;
+            font-family: var(--font-heading);
+            transition: all var(--transition-fast);
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 0 10px rgba(255, 42, 42, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section class="animate-on-scroll" style="padding: 4rem 0;">
+            <p class="terminal-text" style="margin-bottom: 0.5rem;">> ls -la ./projects</p>
+            <h1 class="section-title">Projects</h1>
+            
+            <!-- Filters (UI Only) -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">AI</button>
+                <button class="filter-btn">Automation</button>
+                <button class="filter-btn">Security</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                
+                <!-- Project 1 -->
+                <div class="card animate-on-scroll" data-category="automation ai">
+                    <h3 style="margin-bottom: 0.5rem;">AI-Powered Cyber Newsletter</h3>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <span class="badge">Automation</span>
+                        <span class="badge">AI/Gemini</span>
+                        <span class="badge">n8n</span>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Fetches cyber news from RSS feeds, summarizes using AI, and sends daily email reports automatically.</p>
+                    <a href="./projects/ai-newsletter.html" class="btn"><span>View Details</span></a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="card animate-on-scroll" data-category="automation ai">
+                    <h3 style="margin-bottom: 0.5rem;">AI LinkedIn Post Generator</h3>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <span class="badge">Automation</span>
+                        <span class="badge">API</span>
+                        <span class="badge">n8n</span>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Generates iterative content via AI from Google Sheets input and posts automatically to LinkedIn.</p>
+                    <a href="./projects/linkedin-post-generator.html" class="btn"><span>View Details</span></a>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="card animate-on-scroll" data-category="security ai">
+                    <h3 style="margin-bottom: 0.5rem;">Graama Suraksha AI</h3>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <span class="badge">Security</span>
+                        <span class="badge">Anti-Scam</span>
+                        <span class="badge">Groq AI</span>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">WhatsApp-based scam detection and community alert system with multi-language + audio payload support.</p>
+                    <a href="./projects/graama-suraksha.html" class="btn"><span>View Details</span></a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "./";</script>
+    <script src="./js/components.js"></script>
+    <script src="./js/cursor.js"></script>
+    <script src="./js/animations.js"></script>
+    <script>
+        // Simple UI filter logic
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                // Could implement actual filtering if more projects exist
+            });
+        });
+    </script>
+</body>
+</html>

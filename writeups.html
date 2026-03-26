@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writeups | Revan Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .writeup-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 1px solid var(--card-border);
+            transition: all var(--transition-fast);
+        }
+        .writeup-card:hover {
+            background: rgba(255, 42, 42, 0.05);
+            border-color: rgba(255, 42, 42, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section class="animate-on-scroll" style="padding: 4rem 0;">
+            <p class="terminal-text" style="margin-bottom: 0.5rem;">> ./view_logs.sh</p>
+            <h1 class="section-title">Writeups & Research</h1>
+            
+            <p style="color: var(--text-muted); margin-bottom: 3rem;">Documenting my thought process, methodologies, and technical learnings while breaking systems.</p>
+
+            <div style="display: flex; flex-direction: column;">
+                
+                <!-- Writeup Item -->
+                <div class="writeup-card animate-on-scroll">
+                    <div>
+                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
+                            <h3 style="color: var(--text-main); font-size: 1.5rem;">SQL Injection Learning Notes</h3>
+                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Web Exploitation</span>
+                        </div>
+                        <p style="color: var(--text-muted); max-width: 600px;">Documented hands-on learning from PortSwigger Web Security Academy with step-by-step understanding.</p>
+                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">DATE: ONGOING | PLATFORM: PORTSWIGGER</p>
+                    </div>
+                    <a href="#" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "./";</script>
+    <script src="./js/components.js"></script>
+    <script src="./js/cursor.js"></script>
+    <script src="./js/animations.js"></script>
+</body>
+</html>
