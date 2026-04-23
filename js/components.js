@@ -60,6 +60,8 @@ class PortfolioComponents {
                 link.classList.add('active');
             } else if (path.includes('/projects/') && linkPath === 'projects.html') {
                 link.classList.add('active');
+            } else if (path.includes('/writeups/') && linkPath === 'writeups.html') {
+                link.classList.add('active');
             }
         });
     }

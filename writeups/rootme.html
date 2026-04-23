@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RootMe Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">> cat rootme_notes.txt</p>
+                <h1 class="section-title">RootMe – Full Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Web
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege
+                        Escalation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Target Overview -->
+                <div class="writeup-section">
+                    <h2>1. Target Overview</h2>
+                    <p class="writeup-text"><strong>Goal:</strong> The goal here is simple — get initial access into the
+                        machine and then escalate privileges to root. I’m going to approach this step by step, just like
+                        I would in any real engagement.
+                    </p>
+                </div>
+
+                <!-- 2. Reconnaissance -->
+                <div class="writeup-section">
+                    <h2>2. Reconnaissance</h2>
+                    <p class="writeup-text">Let’s start by understanding what we’re dealing with.</p>
+                    <p class="writeup-text">The first thing we always do is scan the target to identify open ports and
+                        services.</p>
+                    <p class="writeup-text">So let’s run an Nmap scan:</p>
+
+                    <div class="code-block">nmap -sC -sV -oN scan.txt target_ip</div>
+
+                    <img src="../assets/writeups/rootme/scan1.png" alt="scan1" class="writeup-image">
+                    <img src="../assets/writeups/rootme/scan2.png" alt="scan2" class="writeup-image">
+
+                    <p class="writeup-text">Now, looking at the results, we can see that only two ports are open — port
+                        22 for SSH and port 80 running an Apache web server.</p>
+                    <p class="writeup-text">At this point, we have two possible entry points. SSH usually requires
+                        credentials, and we don’t have any yet. So instead of forcing that, let’s focus on the web
+                        service. That’s usually where we can find misconfigurations.</p>
+                </div>
+
+                <!-- 3. Web Enumeration -->
+                <div class="writeup-section">
+                    <h2>3. Web Enumeration</h2>
+                    <p class="writeup-text">Now let’s open the website running on port 80.</p>
+                    <p class="writeup-text">When we visit it, we can see that it’s a very simple page. Nothing
+                        interesting stands out at first glance.</p>
+                    <p class="writeup-text">No login panels, no obvious inputs, nothing interactive.</p>
+                    <p class="writeup-text">So this tells us one thing — whatever vulnerability exists here is probably
+                        not directly visible.</p>
+
+                    <img src="../assets/writeups/rootme/web.png" alt="web" class="writeup-image">
+
+                    <h2>4. Source Code Observation</h2>
+                    <p class="writeup-text">Whenever the page looks clean, the next step is to check the source code.
+                    </p>
+                    <p class="writeup-text">Let’s inspect the page source and see if the developers left anything
+                        useful.</p>
+                    <p class="writeup-text">Looking through it… nothing interesting here either. No hidden comments, no
+                        endpoints, nothing suspicious.</p>
+                    <p class="writeup-text">So now we know — the attack surface is not in the main page.</p>
+
+                    <img src="../assets/writeups/rootme/sourcecode.png" alt="sourcecode" class="writeup-image">
+
+                    <p class="writeup-text">So what do we do when nothing is visible?</p>
+                    <p class="writeup-text">We force it to reveal hidden paths.</p>
+                    <p class="writeup-text">Let’s run directory brute forcing using Gobuster:</p>
+
+                    <div class="code-block">gobuster dir -u http://target-ip -w
+                        /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</div>
+
+                    <img src="../assets/writeups/rootme/gobuster.png" alt="gobuster" class="writeup-image">
+
+                    <p class="writeup-text">Now this is where things get interesting.</p>
+                    <p class="writeup-text">We discover two directories:</p>
+                    <p class="writeup-text">* /uploads</p>
+                    <p class="writeup-text">* /panel</p>
+                    <p class="writeup-text">Immediately, this gives us direction.</p>
+                    <p class="writeup-text">“/panel” could be some admin functionality</p>
+                    <p class="writeup-text">“/uploads” means files are being stored somewhere</p>
+                    <p class="writeup-text">And whenever uploads are involved… we think file upload vulnerability.</p>
+                </div>
+
+                <!-- 5. File Upload Exploitation -->
+                <div class="writeup-section">
+                    <h2>5. File Upload Exploitation</h2>
+                    <p class="writeup-text">Let’s go to the /panel directory.</p>
+                    <p class="writeup-text">And there we go — we’ve got a file upload feature.</p>
+                    <p class="writeup-text">Now this is exactly what we were hoping for.</p>
+                    <p class="writeup-text">If we can upload something malicious and get it executed, we get a shell.
+                    </p>
+
+                    <img src="../assets/writeups/rootme/panel.png" alt="panel" class="writeup-image">
+
+                    <p class="writeup-text">So let’s prepare a reverse shell.</p>
+                    <p class="writeup-text">Instead of writing one manually, let’s quickly grab a reliable PHP reverse
+                        shell from:</p>
+                    <p class="writeup-text">https://www.revshells.com</p>
+                    <p class="writeup-text">We generate the payload, copy the PHP code, and save it into a file named:
+                    </p>
+                    <p class="writeup-text">revshell.php</p>
+
+                    <img src="../assets/writeups/rootme/revweb.png" alt="revweb" class="writeup-image">
+                    <img src="../assets/writeups/rootme/revfile.png" alt="revfile" class="writeup-image">
+
+                    <p class="writeup-text">Now let’s try uploading this file.</p>
+                    <p class="writeup-text">And… it gets rejected.</p>
+                    <p class="writeup-text">So the application is filtering PHP files.</p>
+                    <p class="writeup-text">Good. That means there *is* validation — but also means we can try bypassing
+                        it.</p>
+
+                    <img src="../assets/writeups/rootme/upload-blocked.png" alt="upload-blocked" class="writeup-image">
+
+                    <p class="writeup-text">Now let’s think — if .php is blocked, what about other PHP extensions?</p>
+                    <p class="writeup-text">We rename the file from:</p>
+                    <p class="writeup-text">revshell.php → revshell.phtml</p>
+                    <p class="writeup-text">Now let’s upload it again.</p>
+                    <p class="writeup-text">And… bingo. It works.</p>
+                    <p class="writeup-text">So the filter is weak — it’s only blocking specific extensions instead of
+                        handling execution properly.</p>
+
+                    <img src="../assets/writeups/rootme/frname.png" alt="frname" class="writeup-image">
+                    <img src="../assets/writeups/rootme/upload-success.png" alt="upload-success" class="writeup-image">
+
+                    <p class="writeup-text">Now let’s confirm where the file went.</p>
+                    <p class="writeup-text">We visit the /uploads directory.</p>
+                    <p class="writeup-text">And we can see our file sitting there.</p>
+                    <p class="writeup-text">Perfect. That means we can try executing it.</p>
+
+                    <img src="../assets/writeups/rootme/uploads-directory.png" alt="uploads-directory"
+                        class="writeup-image">
+                </div>
+
+                <!-- 6. Reverse Shell Access -->
+                <div class="writeup-section">
+                    <h2>6. Reverse Shell Access</h2>
+                    <p class="writeup-text">Now let’s prepare to catch the shell.</p>
+                    <p class="writeup-text">We start a netcat listener:</p>
+
+                    <div class="code-block">nc -lvnp 4444</div>
+                    <img src="../assets/writeups/rootme/nclsnr.png" alt="nclsnr" class="writeup-image">
+
+                    <p class="writeup-text">Now, in the browser, let’s access:</p>
+                    <p class="writeup-text">http://target-ip/uploads/revshell.phtml</p>
+                    <p class="writeup-text">The moment we trigger it…</p>
+                    <p class="writeup-text">We get a connection back.</p>
+                    <img src="../assets/writeups/rootme/iaccess.png" alt="iaccess" class="writeup-image">
+                    <p class="writeup-text">We now have a reverse shell as a low-privileged user.</p>
+
+
+
+                    <p class="writeup-text">Right now, the shell is not very stable.</p>
+                    <p class="writeup-text">So let’s upgrade it to a proper interactive shell using Python:</p>
+
+                    <div class="code-block">python3 -c 'import pty; pty.spawn("/bin/bash")'</div>
+
+                    <p class="writeup-text">Now we have a much more usable shell.</p>
+
+                    <img src="../assets/writeups/rootme/stable-shell.png" alt="stable-shell" class="writeup-image">
+                </div>
+
+                <!-- 7. Post Exploitation Enumeration -->
+                <div class="writeup-section">
+                    <h2>7. Post Exploitation</h2>
+                    <p class="writeup-text">Now that we have access, let’s start looking for useful files.</p>
+                    <p class="writeup-text">We search for user.txt:</p>
+
+                    <div class="code-block">find / -type f -name user.txt 2> /dev/null</div>
+
+                    <p class="writeup-text">After scanning the system, we locate it and confirm our access.</p>
+                    <p class="writeup-text">Now the next goal — privilege escalation.</p>
+
+                    <img src="../assets/writeups/rootme/user-flag.png" alt="user-flag" class="writeup-image">
+                </div>
+
+                <!-- 8. Privilege Escalation -->
+                <div class="writeup-section">
+                    <h2>8. Privilege Escalation</h2>
+                    <p class="writeup-text">Now that we’ve confirmed initial access, let’s move on to privilege
+                        escalation.</p>
+                    <p class="writeup-text">Let’s look for SUID binaries:</p>
+
+                    <div class="code-block">find / -user root -perm /4000 2>/dev/null</div>
+
+                    <p class="writeup-text">Now while scanning through the results…</p>
+                    <p class="writeup-text">We notice something very interesting.</p>
+                    <p class="writeup-text">Python has the SUID bit set.</p>
+                    <p class="writeup-text">That’s a big deal.</p>
+                    <p class="writeup-text">Because if Python runs as root, we can use it to execute commands as root.
+                    </p>
+
+                    <img src="../assets/writeups/rootme/interesting_binary.png" alt="interesting_binary"
+                        class="writeup-image">
+
+                    <p class="writeup-text">At this point, instead of guessing, let’s check GTFOBins.</p>
+                    <p class="writeup-text">We search for Python SUID exploitation.</p>
+                    <img src="../assets/writeups/rootme/suid_det.png" alt="suid_det" class="writeup-image">
+                    <p class="writeup-text">And we find a one-liner that can spawn a root shell.</p>
+
+                    <img src="../assets/writeups/rootme/suid_details.png" alt="suid_details" class="writeup-image">
+
+                    <p class="writeup-text">Now let’s execute that one-liner:</p>
+
+                    <div class="code-block">python -c 'import os; os.execl("/bin/sh", "sh", "-p")'</div>
+
+                    <p class="writeup-text">And just like that…</p>
+                    <p class="writeup-text">We get a root shell.</p>
+                </div>
+
+                <!-- 9. Root Access -->
+                <div class="writeup-section">
+                    <h2>9. Root Access</h2>
+                    <p class="writeup-text">Now we have full control over the machine.</p>
+                    <p class="writeup-text">From initial access to complete privilege escalation — everything worked
+                        through a chain of small misconfigurations.</p>
+                </div>
+
+                <!-- 10. Lessons Learned -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>10. Lessons Learned</h2>
+                    <ul class="finding-list">
+                        <li>File upload validation weaknesses can often be bypassed using alternative extensions (e.g.,
+                            .phtml, .php5) if the server blacklists specific ones instead of whitelisting.</li>
+                        <li>Execution paths of uploaded files must always be verified and restricted by the web server
+                            to prevent arbitrary code execution.</li>
+                        <li>SUID binaries, especially those capable of executing commands like Python or Bash, introduce
+                            severe privilege escalation risks and should be heavily restricted.</li>
+                        <li>GTFOBins is an invaluable resource for quickly identifying how to abuse misconfigured
+                            binaries during the post-exploitation phase.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
