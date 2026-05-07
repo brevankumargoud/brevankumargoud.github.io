@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounty Hunter Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">> cat bounty_hunter_notes.txt</p>
+                <h1 class="section-title">Bounty Hunter – Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Linux</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege
+                        Escalation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Introduction -->
+                <div class="writeup-section">
+                    <h2>1. Introduction</h2>
+                    <p class="writeup-text">Hey everyone 👋<br>
+                        In this room, we’ll be chaining together multiple small weaknesses to gain full access over the
+                        target machine.</p>
+                    <p class="writeup-text">The attack path for this machine is actually pretty interesting because
+                        every clue naturally leads us toward the next step.</p>
+                    <p class="writeup-text">During this walkthrough, we’ll:</p>
+                    <ul class="finding-list">
+                        <li>Enumerate exposed services</li>
+                        <li>Abuse anonymous FTP access</li>
+                        <li>Extract credential-related information</li>
+                        <li>Bruteforce SSH access</li>
+                        <li>Escalate privileges using a vulnerable sudo binary</li>
+                    </ul>
+                    <p class="writeup-text">So let’s jump straight into it ⚡</p>
+                </div>
+
+                <!-- 2. Initial Enumeration -->
+                <div class="writeup-section">
+                    <h2>2. Initial Enumeration</h2>
+                    <p class="writeup-text">As always, let’s begin with an Nmap scan and see what services this machine
+                        is exposing.</p>
+                    <div class="code-block">nmap -sC -sV &lt;Machine IP&gt; -oN scan.txt</div>
+                    <p class="writeup-text">This scan performs:</p>
+                    <ul class="finding-list">
+                        <li>Default NSE scripts (-sC)</li>
+                        <li>Version detection (-sV)</li>
+                        <li>Output saving (-oN)</li>
+                    </ul>
+                    <img src="../assets/writeups/Bounty_Hunter/1_Scan.png" alt="Nmap Scan Results"
+                        class="writeup-image">
+                    <p class="writeup-text">After the scan completes, we find three important services exposed on the
+                        target:</p>
+                    <ul class="finding-list">
+                        <li>FTP</li>
+                        <li>SSH</li>
+                        <li>HTTP</li>
+                    </ul>
+                    <p class="writeup-text">The most interesting thing here is: <strong>Anonymous FTP login
+                            allowed</strong></p>
+                    <p class="writeup-text">That’s immediately suspicious because anonymous FTP often leaks internal
+                        files, credentials, backups, or operational data.</p>
+
+
+                    <p class="writeup-text">At this point, instead of spending too much time on the web application,
+                        let’s investigate the FTP service first since it already looks promising.</p>
+                </div>
+
+                <!-- 3. Enumerating the FTP Service -->
+                <div class="writeup-section">
+                    <h2>3. Enumerating the FTP Service</h2>
+                    <p class="writeup-text">Let’s connect to the FTP server.</p>
+                    <div class="code-block">ftp &lt;Machine IP&gt;
+                    </div>
+                    <p class="writeup-text">When prompted for credentials, we use:</p>
+                    <p class="writeup-text">Username: anonymous</p>
+                    <p class="writeup-text">And we successfully gain access to the FTP service.</p>
+
+                    <p class="writeup-text">Now let’s see what files are available inside the FTP share.</p>
+                    <div class="code-block">ls</div>
+                    <p class="writeup-text">Interesting… 👀</p>
+                    <p class="writeup-text">We find two files:</p>
+                    <ul class="finding-list">
+                        <li>locks.txt</li>
+                        <li>task.txt</li>
+                    </ul>
+                    <p class="writeup-text">This already tells us the FTP service is exposing internal information.</p>
+                    <p class="writeup-text">Let’s download both files locally for analysis.</p>
+                    <div class="code-block">get locks.txt</div>
+                    <div class="code-block">get task.txt</div>
+                    <img src="../assets/writeups/Bounty_Hunter/2_FTP.png" alt="FTP Login and Enumeration"
+                        class="writeup-image">
+
+
+                </div>
+
+                <!-- 4. Inspecting the Downloaded Files -->
+                <div class="writeup-section">
+                    <h2>4. Inspecting the Downloaded Files</h2>
+                    <p class="writeup-text">Let’s first inspect task.txt.</p>
+                    <div class="code-block">cat task.txt</div>
+                    <p class="writeup-text">The file contains:</p>
+                    <p class="writeup-text">1.) Protect Vicious.<br>
+                        2.) Plan for Red Eye pickup on the moon.</p>
+                    <p class="writeup-text">This doesn’t directly give us full credentials, but it does reveal a
+                        likely valid username (lin).</p>
+                    <p class="writeup-text">Now let’s inspect another interesting file — locks.txt.</p>
+                    <div class="code-block">cat locks.txt</div>
+                    <img src="../assets/writeups/Bounty_Hunter/3_FTP_Files.png" alt="Downloading FTP Files"
+                        class="writeup-image">
+                    <p class="writeup-text">Immediately we notice something important: the file contains multiple
+                        password-like strings based on variations of:</p>
+                    <ul class="finding-list">
+                        <li>RedDragon</li>
+                        <li>Syndicate</li>
+                        <li>character substitutions</li>
+                        <li>numeric replacements</li>
+                    </ul>
+                    <p class="writeup-text">This strongly looks like a custom password wordlist.</p>
+                    <p class="writeup-text">At this point, we already have:</p>
+                    <ul class="finding-list">
+                        <li>SSH exposed</li>
+                        <li>a likely valid username (lin)</li>
+                        <li>and a password candidate list</li>
+                    </ul>
+                    <p class="writeup-text">That gives us a realistic SSH attack path.</p>
+                </div>
+
+                <!-- 5. Bruteforcing SSH Credentials -->
+                <div class="writeup-section">
+                    <h2>5. Bruteforcing SSH Credentials</h2>
+                    <p class="writeup-text">Since we already have a custom wordlist, let’s use Hydra to test these
+                        passwords against the SSH service.</p>
+                    <div class="code-block">hydra -l lin -P locks.txt &lt;Machine IP&gt; ssh</div>
+                    <img src="../assets/writeups/Bounty_Hunter/4_SSH_Bruteforcing.png" alt="Hydra SSH Bruteforce"
+                        class="writeup-image">
+                    <p class="writeup-text">Very quickly, Hydra returns valid credentials.</p>
+                    <p class="writeup-text">Now we've obtained the credentials to login through the SSH.</p>
+                    <p class="writeup-text">This confirms that the FTP leak directly enabled SSH compromise through weak
+                        credential practices.</p>
+                </div>
+
+                <!-- 6. Gaining Initial Access -->
+                <div class="writeup-section">
+                    <h2>6. Gaining Initial Access</h2>
+                    <p class="writeup-text">Now let’s login through SSH using the discovered credentials.</p>
+                    <div class="code-block">ssh lin@&lt;Machine IP&gt;
+                    </div>
+                    <p class="writeup-text">After entering the password, we successfully gain access to the machine.</p>
+
+                    <img src="../assets/writeups/Bounty_Hunter/5_SSH_Login.png" alt="Successful SSH Login"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Now that we have a foothold, let’s look around and retrieve the user flag.
+                    </p>
+                    <div class="code-block">ls
+                        cat user.txt</div>
+                    <img src="../assets/writeups/Bounty_Hunter/6_User_Flag.png" alt="User Flag" class="writeup-image">
+                    <p class="writeup-text">And we successfully obtain the user flag.</p>
+
+                    <p class="writeup-text">Initial access complete ✅</p>
+                    <p class="writeup-text">Now let’s move toward privilege escalation.</p>
+                </div>
+
+                <!-- 7. Privilege Escalation Enumeration -->
+                <div class="writeup-section">
+                    <h2>7. Privilege Escalation Enumeration</h2>
+                    <p class="writeup-text">The first thing we should always check after gaining access is sudo
+                        permissions.</p>
+                    <div class="code-block">sudo -l</div>
+
+                    <img src="../assets/writeups/Bounty_Hunter/7_Superuser_Check.png" alt="Sudo Privilege Check"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Interesting… 👀</p>
+                    <p class="writeup-text">The output shows that the user can execute:</p>
+                    <p class="writeup-text">(root) /bin/tar</p>
+                    <p class="writeup-text">This is important because tar is a known GTFOBins candidate capable of
+                        spawning privileged shells.</p>
+                    <p class="writeup-text">At this stage, we already know the vulnerable binary.</p>
+                    <p class="writeup-text">Now we just need the correct exploitation method.</p>
+                </div>
+
+                <!-- 8. Checking GTFOBins -->
+                <div class="writeup-section">
+                    <h2>8. Checking GTFOBins</h2>
+                    <p class="writeup-text">To confirm the exact privilege escalation technique, let’s check GTFOBins
+                        for the tar binary.</p>
+
+                    <img src="../assets/writeups/Bounty_Hunter/8_GTFOBINS.png" alt="GTFOBins Tar Entry"
+                        class="writeup-image">
+                    <p class="writeup-text">The GTFOBins entry confirms that tar can execute arbitrary commands when run
+                        with sudo privileges using checkpoint actions.</p>
+                    <p class="writeup-text">GTFOBins provides a shell escape payload using tar checkpoint actions:</p>
+                    <img src="../assets/writeups/Bounty_Hunter/9_Priv_Esc_Command.png"
+                        alt="Privilege Escalation Command Execution" class="writeup-image">
+                </div>
+
+                <!-- 9. Gaining Root Access -->
+                <div class="writeup-section">
+                    <h2>9. Gaining Root Access</h2>
+
+
+                    <p class="writeup-text">Now let’s execute the payload.</p>
+                    <div class="code-block">sudo tar -cf /dev/null /dev/null --checkpoint=1
+                        --checkpoint-action=exec=/bin/sh</div>
+                    <p class="writeup-text">This command forces tar to execute /bin/sh while running with elevated
+                        sudo privileges.</p>
+                    <p class="writeup-text">Immediately after execution, we obtain a root shell.</p>
+                    <p class="writeup-text">To confirm elevated privileges:</p>
+                    <div class="code-block">id</div>
+                    <p class="writeup-text">And we can see:</p>
+                    <p class="writeup-text">uid=0(root)</p>
+                    <img src="../assets/writeups/Bounty_Hunter/10_Root_Access.png" alt="Root Shell Confirmation"
+                        class="writeup-image">
+                    <p class="writeup-text">Root access achieved 🎯</p>
+
+
+                </div>
+
+                <!-- 10. Attack Chain Summary & Final Thoughts -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>10. Attack Chain Summary</h2>
+                    <p class="writeup-text">Let’s quickly recap the full attack path:</p>
+                    <ul class="finding-list">
+                        <li>Anonymous FTP access exposed internal files.</li>
+                        <li>The FTP share leaked password-related data.</li>
+                        <li>Hydra was used to bruteforce SSH credentials.</li>
+                        <li>SSH access was obtained as user lin.</li>
+                        <li>Misconfigured sudo permissions allowed execution of tar as root.</li>
+                        <li>GTFOBins techniques were used to spawn a privileged shell.</li>
+                    </ul>
+
+                    <h3>Final Thoughts</h3>
+                    <p class="writeup-text">This room was a great example of how multiple small weaknesses can
+                        combine into full system compromise.</p>
+                    <p class="writeup-text">None of the vulnerabilities individually were extremely advanced, but
+                        together they created a smooth attack chain:</p>
+                    <ul class="finding-list">
+                        <li>exposed services</li>
+                        <li>poor credential management</li>
+                        <li>and unsafe sudo permissions</li>
+                    </ul>
+                    <p class="writeup-text">One thing that made this room especially enjoyable was how naturally
+                        each clue led toward the next phase of exploitation.</p>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to
+                    Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
