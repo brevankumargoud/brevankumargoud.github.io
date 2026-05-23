@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EternalBlue Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">&gt; cat eternalblue_notes.txt</p>
+                <h1 class="section-title">EternalBlue – Full Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">HackersDaddy
+                        Internship</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Windows
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">SMB
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">EternalBlue</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Post
+                        Exploitation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Introduction -->
+                <div class="writeup-section">
+                    <h2>1. Introduction</h2>
+                    <p class="writeup-text">Hey everyone 👋</p>
+                    <p class="writeup-text">In this walkthrough, we’ll be exploiting a vulnerable Windows 7 machine as
+                        part of one of the practical penetration testing tasks assigned during my internship at
+                        HackersDaddy.</p>
+                    <p class="writeup-text">This machine is vulnerable to MS17-010, a critical SMBv1 remote code
+                        execution vulnerability that can be exploited using EternalBlue.</p>
+                    <p class="writeup-text">Our objective here is to:</p>
+                    <ul class="finding-list">
+                        <li>enumerate the target machine</li>
+                        <li>identify exposed services</li>
+                        <li>validate the vulnerability</li>
+                        <li>gain remote access</li>
+                        <li>and retrieve both challenge flags</li>
+                    </ul>
+                    <p class="writeup-text">During this process, we’ll move from simple SMB enumeration all the way to
+                        obtaining a SYSTEM-level shell on the target machine.</p>
+                    <p class="writeup-text">So let’s jump straight into the exploitation process ⚡</p>
+                </div>
+
+                <!-- 2. Verifying Connectivity With the Target -->
+                <div class="writeup-section">
+                    <h2>2. Verifying Connectivity With the Target</h2>
+                    <p class="writeup-text">Before starting reconnaissance, let’s first verify whether the target
+                        machine is reachable.</p>
+                    <div class="code-block">ping &lt;target-ip&gt;</div>
+                    <img src="../assets/writeups/EternalBlue/1)IP_Ping.png" alt="Successful ping screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">The target responds successfully, confirming proper network communication
+                        between the attacker and victim machines.</p>
+                </div>
+
+                <!-- 3. Configuring the Hosts File -->
+                <div class="writeup-section">
+                    <h2>3. Configuring the Hosts File</h2>
+                    <p class="writeup-text">Since we’ll be interacting with the target multiple times throughout
+                        enumeration and exploitation, repeatedly typing the IP address can become inconvenient.</p>
+                    <p class="writeup-text">To simplify the workflow, let’s configure a hostname entry inside the local
+                        hosts file.</p>
+                    <div class="code-block">nano /etc/hosts</div>
+                    <img src="../assets/writeups/EternalBlue/2)ETC_Hosts.png" alt="/etc/hosts screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">Now let’s add an entry similar to:</p>
+                    <p class="writeup-text">192.168.x.x eternal_blue</p>
+                    <img src="../assets/writeups/EternalBlue/3)Add_To_Hosts.png" alt="Modified hosts file screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">This allows the target machine to be referenced using the hostname
+                        "eternal_blue" instead of repeatedly typing the IP address during scans, enumeration, and
+                        exploitation.</p>
+                    <p class="writeup-text">After saving the file, let’s verify that hostname resolution works properly.
+                    </p>
+                    <div class="code-block">ping eternal_blue</div>
+                    <img src="../assets/writeups/EternalBlue/4)Name_Ping.png" alt="Successful hostname ping screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">Perfect ⚡</p>
+                    <p class="writeup-text">The hostname now resolves correctly and communicates successfully with the
+                        target machine.</p>
+                </div>
+
+                <!-- 4. Performing Initial Reconnaissance -->
+                <div class="writeup-section">
+                    <h2>4. Performing Initial Reconnaissance</h2>
+                    <p class="writeup-text">Now that communication with the target is working properly, let’s begin
+                        reconnaissance using Nmap.</p>
+                    <div class="code-block">nmap -sC -sV eternal_blue -oN scan.txt</div>
+                    <img src="../assets/writeups/EternalBlue/5)Simple_nmap_Scan_Command.png"
+                        alt="Nmap scan command screenshot" class="writeup-image">
+                    <p class="writeup-text">This scan:</p>
+                    <ul class="finding-list">
+                        <li>runs default NSE scripts</li>
+                        <li>performs version detection</li>
+                        <li>and stores the results locally</li>
+                    </ul>
+                    <p class="writeup-text">After the scan completes, several important services are revealed.</p>
+                    <img src="../assets/writeups/EternalBlue/6)Simple_nmap_Scan_Command_Result.png"
+                        alt="Nmap scan result screenshot" class="writeup-image">
+                    <p class="writeup-text">We can see:</p>
+                    <ul class="finding-list">
+                        <li>SMB service exposed on port 445</li>
+                        <li>NetBIOS services enabled</li>
+                        <li>Windows 7 Professional SP1 running on the target</li>
+                        <li>and evidence of SMBv1 support</li>
+                    </ul>
+                    <p class="writeup-text">At this point, the target already looks highly suspicious because SMBv1 is
+                        historically associated with several dangerous vulnerabilities.</p>
+                </div>
+
+                <!-- 5. Enumerating SMB Shares -->
+                <div class="writeup-section">
+                    <h2>5. Enumerating SMB Shares</h2>
+                    <p class="writeup-text">Since SMB is exposed, let’s enumerate the available SMB shares.</p>
+                    <div class="code-block">smbclient -L eternal_blue</div>
+                    <p class="writeup-text">When prompted for a password, simply press Enter.</p>
+                    <p class="writeup-text">Anonymous SMB enumeration is allowed on the target.</p>
+                    <img src="../assets/writeups/EternalBlue/7)Accessing_Shares(F1).png"
+                        alt="SMB share enumeration screenshot containing the first flag" class="writeup-image">
+                    <p class="writeup-text">After enumeration completes, several SMB shares are displayed including:</p>
+                    <ul class="finding-list">
+                        <li>ADMIN$</li>
+                        <li>C$</li>
+                        <li>IPC$</li>
+                        <li>Users</li>
+                        <li>secret</li>
+                    </ul>
+                    <p class="writeup-text">Now this is where things get interesting 👀</p>
+                    <p class="writeup-text">The SMB share named "secret" exposes a challenge flag directly inside its
+                        comment field.</p>
+                    <p class="writeup-text">This confirms successful SMB enumeration and also demonstrates how sensitive
+                        information can leak through poorly configured SMB shares.</p>
+                </div>
+
+                <!-- 6. Validating the MS17-010 Vulnerability -->
+                <div class="writeup-section">
+                    <h2>6. Validating the MS17-010 Vulnerability</h2>
+                    <p class="writeup-text">Now that we know:</p>
+                    <ul class="finding-list">
+                        <li>SMBv1 is enabled</li>
+                        <li>and the target is running Windows 7</li>
+                    </ul>
+                    <p class="writeup-text">let’s verify whether the machine is vulnerable to MS17-010.</p>
+                    <p class="writeup-text">We can perform this validation using Nmap SMB vulnerability scripts.</p>
+                    <div class="code-block">nmap --script smb-vuln* -p445 eternal_blue</div>
+                    <img src="../assets/writeups/EternalBlue/8)nmap_smb_vuln_scan_command.png"
+                        alt="SMB vulnerability scan command screenshot" class="writeup-image">
+                    <p class="writeup-text">After the scan completes, the output confirms that the target is vulnerable
+                        to:</p>
+                    <p class="writeup-text"><strong>MS17-010 (CVE-2017-0144)</strong></p>
+                    <img src="../assets/writeups/EternalBlue/9)nmap_smb_vuln_scan_result.png"
+                        alt="SMB vulnerability scan result screenshot" class="writeup-image">
+                    <p class="writeup-text">This is the famous SMBv1 remote code execution vulnerability that
+                        EternalBlue exploits.</p>
+                    <p class="writeup-text">At this point, we already have a clear exploitation path.</p>
+                </div>
+
+                <!-- 7. Reviewing EternalBlue -->
+                <div class="writeup-section">
+                    <h2>7. Reviewing EternalBlue</h2>
+                    <p class="writeup-text">Before exploitation, let’s quickly review the exploit associated with
+                        MS17-010.</p>
+                    <p class="writeup-text">The exploit commonly used against this vulnerability is known as
+                        EternalBlue.</p>
+                    <p class="writeup-text">EternalBlue became globally infamous after being weaponized during attacks
+                        such as WannaCry and NotPetya.</p>
+                    <p class="writeup-text">ExploitDB contains public references and technical details related to the
+                        exploit.</p>
+                    <img src="../assets/writeups/EternalBlue/10)ExploitDB.png" alt="ExploitDB EternalBlue screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">From ExploitDB, we can confirm that a Metasploit module exists for
+                        exploiting this vulnerability.</p>
+                </div>
+
+                <!-- 8. Launching Metasploit Framework -->
+                <div class="writeup-section">
+                    <h2>8. Launching Metasploit Framework</h2>
+                    <p class="writeup-text">Now let’s move into the exploitation phase.</p>
+                    <p class="writeup-text">First, launch Metasploit Framework.</p>
+                    <div class="code-block">msfconsole</div>
+                    <img src="../assets/writeups/EternalBlue/11)Starting_Metasploit.png"
+                        alt="Metasploit startup screenshot" class="writeup-image">
+                    <p class="writeup-text">Once Metasploit loads successfully, let’s search for EternalBlue-related
+                        modules.</p>
+                    <div class="code-block">search CVE-2017-0144</div>
+                    <img src="../assets/writeups/EternalBlue/12)Searching_in_metasploit_result.png"
+                        alt="Metasploit search command screenshot" class="writeup-image">
+                    <p class="writeup-text">Among the results, we can identify the following exploit module:</p>
+                    <p class="writeup-text">exploit/windows/smb/ms17_010_eternalblue</p>
+                    <img src="../assets/writeups/EternalBlue/13)Metasploit_search_result.png"
+                        alt="Metasploit search result screenshot" class="writeup-image">
+                    <p class="writeup-text">Perfect ⚡</p>
+                </div>
+
+                <!-- 9. Selecting the EternalBlue Module -->
+                <div class="writeup-section">
+                    <h2>9. Selecting the EternalBlue Module</h2>
+                    <p class="writeup-text">Now let’s load the EternalBlue exploit module.</p>
+                    <div class="code-block">use 0</div>
+                    <p class="writeup-text">After loading the module, let’s inspect the required configuration options.
+                    </p>
+                    <div class="code-block">show options</div>
+                    <img src="../assets/writeups/EternalBlue/14)Requirements_check.png" alt="show options screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">The module requires:</p>
+                    <ul class="finding-list">
+                        <li>target host details</li>
+                    </ul>
+                </div>
+
+                <!-- 10. Configuring the Exploit -->
+                <div class="writeup-section">
+                    <h2>10. Configuring the Exploit</h2>
+                    <p class="writeup-text">Now let’s configure the target host.</p>
+                    <div class="code-block">set RHOSTS eternal_blue</div>
+                    <img src="../assets/writeups/EternalBlue/15)Setting_Target.png" alt="set RHOSTS screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">After configuring the target, let’s verify the settings once again.</p>
+                    <div class="code-block">show options</div>
+                    <img src="../assets/writeups/EternalBlue/16)Recheck.png" alt="recheck/show options screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">Everything now looks properly configured and ready for exploitation.</p>
+                </div>
+
+                <!-- 11. Exploiting the Target -->
+                <div class="writeup-section">
+                    <h2>11. Exploiting the Target</h2>
+                    <p class="writeup-text">Now comes the interesting part ⚡</p>
+                    <p class="writeup-text">Let’s launch the exploit.</p>
+                    <div class="code-block">exploit</div>
+                    <img src="../assets/writeups/EternalBlue/17)Running_Exploit.png" alt="exploit execution screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">During execution:</p>
+                    <ul class="finding-list">
+                        <li>the vulnerability gets validated</li>
+                        <li>SMB memory structures are manipulated</li>
+                        <li>EternalBlue triggers remote memory corruption</li>
+                        <li>and the payload gets delivered to the target machine</li>
+                    </ul>
+                    <p class="writeup-text">Within a few seconds, the exploit successfully opens a Meterpreter session.
+                    </p>
+                    <img src="../assets/writeups/EternalBlue/18)Meterpreter_Session.png"
+                        alt="successful Meterpreter session screenshot" class="writeup-image">
+                    <p class="writeup-text">That confirms successful remote code execution against the vulnerable
+                        Windows machine.</p>
+                </div>
+
+                <!-- 12. Exploring Meterpreter -->
+                <div class="writeup-section">
+                    <h2>12. Exploring Meterpreter</h2>
+                    <p class="writeup-text">Now that we have a Meterpreter session, let’s quickly look at some available
+                        Meterpreter functionalities.</p>
+                    <div class="code-block">help</div>
+                    <img src="../assets/writeups/EternalBlue/19)Meterpreter_Help.png" alt="Meterpreter help screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">Meterpreter provides several powerful post-exploitation features including:
+                    </p>
+                    <ul class="finding-list">
+                        <li>filesystem interaction</li>
+                        <li>shell spawning</li>
+                        <li>process migration</li>
+                        <li>screenshot capture</li>
+                        <li>keylogging</li>
+                        <li>privilege management</li>
+                        <li>and persistence capabilities</li>
+                    </ul>
+                    <p class="writeup-text">Now let’s gather some basic information about the compromised system.</p>
+                    <div class="code-block">sysinfo</div>
+                    <img src="../assets/writeups/EternalBlue/20)Sysinfo.png" alt="sysinfo screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">The output confirms:</p>
+                    <ul class="finding-list">
+                        <li>Windows 7 Professional SP1</li>
+                        <li>x64 architecture</li>
+                        <li>target hostname</li>
+                        <li>WORKGROUP domain details</li>
+                    </ul>
+                </div>
+
+                <!-- 13. Spawning a Native Windows Shell -->
+                <div class="writeup-section">
+                    <h2>13. Spawning a Native Windows Shell</h2>
+                    <p class="writeup-text">Now let’s spawn a native Windows command shell from Meterpreter.</p>
+                    <div class="code-block">shell</div>
+                    <img src="../assets/writeups/EternalBlue/21)Getting_Windows_Shell.png"
+                        alt="Windows shell screenshot" class="writeup-image">
+                    <p class="writeup-text">Perfect ⚡</p>
+                    <p class="writeup-text">We now have direct command-line interaction with the operating system.</p>
+                    <p class="writeup-text">The shell successfully lands inside:</p>
+                    <p class="writeup-text"><strong>C:\Windows\system32&gt;</strong></p>
+                </div>
+
+                <!-- 14. Verifying SYSTEM-Level Access -->
+                <div class="writeup-section">
+                    <h2>14. Verifying SYSTEM-Level Access</h2>
+                    <p class="writeup-text">Before moving further, let’s verify our privilege level.</p>
+                    <div class="code-block">whoami</div>
+                    <img src="../assets/writeups/EternalBlue/22)Current_User_level_Check.png" alt="whoami screenshot"
+                        class="writeup-image">
+                    <p class="writeup-text">The output returns:</p>
+                    <p class="writeup-text"><strong>nt authority\system</strong></p>
+                    <p class="writeup-text">This confirms:</p>
+                    <ul class="finding-list">
+                        <li>complete SYSTEM-level compromise</li>
+                        <li>highest privilege level on Windows</li>
+                        <li>unrestricted administrative access over the target machine</li>
+                    </ul>
+                </div>
+
+                <!-- 15. Enumerating the Filesystem -->
+                <div class="writeup-section">
+                    <h2>15. Enumerating the Filesystem</h2>
+                    <p class="writeup-text">Now let’s start enumerating the filesystem and look for the remaining
+                        challenge flag.</p>
+                    <p class="writeup-text">We’ll begin from the root of the C: drive.</p>
+                    <div class="code-block">cd ..</div>
+                    <div class="code-block">cd ..</div>
+                    <div class="code-block">dir</div>
+                    <img src="../assets/writeups/EternalBlue/23)Flag_in_C_drive.png"
+                        alt="Root directory enumeration screenshot" class="writeup-image">
+                    <p class="writeup-text">Several directories and files become visible including:</p>
+                    <ul class="finding-list">
+                        <li>Program Files</li>
+                        <li>Users</li>
+                        <li>Windows</li>
+                        <li>secret</li>
+                        <li>flag.txt</li>
+                    </ul>
+                    <p class="writeup-text">The file named flag.txt immediately looks promising.</p>
+                    <p class="writeup-text">So let’s inspect it.</p>
+                    <div class="code-block">type flag.txt</div>
+                    <p class="writeup-text">However, the content only displays a misleading message:</p>
+                    <p class="writeup-text">flag is not encrypted</p>
+                    <p class="writeup-text">So this is clearly not the actual flag.</p>
+                </div>
+
+                <!-- 16. Investigating the Secret Directory -->
+                <div class="writeup-section">
+                    <h2>16. Investigating the Secret Directory</h2>
+                    <p class="writeup-text">Now let’s move into the "secret" directory because it looks suspicious.</p>
+                    <div class="code-block">cd secret</div>
+                    <div class="code-block">dir</div>
+                    <p class="writeup-text">Inside the directory, two files are discovered:</p>
+                    <ul class="finding-list">
+                        <li>flag.txt</li>
+                        <li>flag-2.txt</li>
+                    </ul>
+                    <div class="code-block">type flag.txt</div>
+                    <p class="writeup-text">The first file displays ASCII-art style content and appears intentionally
+                        misleading.</p>
+                    <p class="writeup-text">However, the second file contains the valid enumeration flag but it is the
+                        same flag obtained during the SMB share enumeration.</p>
+                    <div class="code-block">type flag-2.txt</div>
+                    <img src="../assets/writeups/EternalBlue/24)Fake_Flags_in_secret_Folder.png"
+                        alt="secret directory screenshot and ASCII-art screenshot" class="writeup-image">
+                </div>
+
+                <!-- 17. Enumerating the Victim User Directory -->
+                <div class="writeup-section">
+                    <h2>17. Enumerating the Victim User Directory</h2>
+                    <p class="writeup-text">Now let’s continue enumeration inside the Users directory.</p>
+                    <div class="code-block">cd C:\Users\victim</div>
+                    <p class="writeup-text">Several standard Windows user folders become visible:</p>
+                    <ul class="finding-list">
+                        <li>Desktop</li>
+                        <li>Documents</li>
+                        <li>Downloads</li>
+                        <li>Pictures</li>
+                        <li>Videos</li>
+                    </ul>
+                    <p class="writeup-text">The Desktop directory contains another file named flag.txt.</p>
+                    <div class="code-block">cd Desktop</div>
+                    <div class="code-block">dir</div>
+                    <div class="code-block">type flag.txt</div>
+                    <img src="../assets/writeups/EternalBlue/25)Fake_Flag_in_Victim_Desktop.png"
+                        alt="victim Desktop fake flag screenshot" class="writeup-image">
+                    <p class="writeup-text">However, this once again displays misleading ASCII-art content rather than
+                        the actual flag.</p>
+                </div>
+
+                <!-- 18. Retrieving the Final Flag -->
+                <div class="writeup-section">
+                    <h2>18. Retrieving the Final Flag</h2>
+                    <p class="writeup-text">Since the Desktop directory did not contain the real flag, let’s continue
+                        enumeration inside the Documents directory.</p>
+                    <div class="code-block">cd Documents</div>
+                    <div class="code-block">dir</div>
+                    <p class="writeup-text">Inside the directory, we can see a file named proof.txt</p>
+                    <p class="writeup-text">Now let’s inspect it.</p>
+                    <div class="code-block">type proof.txt</div>
+                    <img src="../assets/writeups/EternalBlue/26)Final_Flag_in_Victim_Documents.png"
+                        alt="Documents directory screenshot containing the final flag" class="writeup-image">
+                    <p class="writeup-text">Perfect ⚡</p>
+                    <p class="writeup-text">The file reveals the final challenge flag.</p>
+                    <p class="writeup-text">This confirms successful SYSTEM-level compromise of the vulnerable Windows 7
+                        target through EternalBlue exploitation.</p>
+                </div>
+
+                <!-- 19. Attack Chain Summary -->
+                <div class="writeup-section">
+                    <h2>19. Attack Chain Summary</h2>
+                    <p class="writeup-text">Let’s quickly recap the full attack chain:</p>
+                    <ul class="finding-list">
+                        <li>Connectivity verification</li>
+                        <li>Host resolution configuration</li>
+                        <li>Nmap reconnaissance</li>
+                        <li>SMB share enumeration</li>
+                        <li>MS17-010 vulnerability validation</li>
+                        <li>EternalBlue exploit research</li>
+                        <li>Metasploit exploitation</li>
+                        <li>Meterpreter shell access</li>
+                        <li>SYSTEM privilege verification</li>
+                        <li>Filesystem enumeration</li>
+                    </ul>
+                </div>
+
+                <!-- 20. Final Thoughts -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>20. Final Thoughts</h2>
+                    <p class="writeup-text">This machine was an excellent demonstration of how dangerous legacy SMBv1
+                        services can become when critical vulnerabilities remain unpatched.</p>
+                    <p class="writeup-text">The challenge provided practical exposure to:</p>
+                    <ul class="finding-list">
+                        <li>SMB enumeration</li>
+                        <li>vulnerability validation</li>
+                        <li>EternalBlue exploitation</li>
+                        <li>Metasploit usage</li>
+                        <li>post-exploitation enumeration</li>
+                        <li>and Windows privilege verification</li>
+                    </ul>
+                    <p class="writeup-text">Overall, this was a great hands-on exercise in building a complete attack
+                        chain from reconnaissance all the way to SYSTEM-level compromise ⚡</p>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
