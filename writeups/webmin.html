@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webmin 1.920 Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">&gt; cat webmin_notes.txt</p>
+                <h1 class="section-title">Webmin 1.920 – Full Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">HackersDaddy
+                        Internship</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Linux
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Webmin
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">CVE-2019-15107</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege
+                        Escalation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Post
+                        Exploitation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Let's Begin -->
+                <div class="writeup-section">
+                    <h2>1. Let's Begin 🎯</h2>
+                    <p class="writeup-text">Hey everyone 👋</p>
+                    <p class="writeup-text">This writeup is part of a CTF-based penetration testing task assigned during
+                        an internship at <strong>HackersDaddy</strong>. Let's walk through the entire exploitation
+                        process — every step, every stumble, every "aha" moment. Buckle up, let's do this together. 🚀
+                    </p>
+                    <p class="writeup-text">A virtual machine is handed over, with absolutely nothing known about it. No
+                        hints, no credentials, no attack surface — just a VM. After setting it up in <strong>VMware
+                            Workstation Pro</strong>, it is time to dig in.</p>
+                </div>
+
+                <!-- 2. Finding the Target -->
+                <div class="writeup-section">
+                    <h2>2. Finding the Target 🔍</h2>
+                    <p class="writeup-text">Before anything else, let's find the IP address of the target machine. Since
+                        both the Kali machine and the target sit on the same virtual network, a clean path is available
+                        to discover it.</p>
+
+                    <img src="../assets/writeups/webmin/1_Network_interface.png" alt="arp-scan interface selection"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Let's fire up <code>arp-scan</code> to find all alive hosts on this network:
+                    </p>
+
+                    <div class="code-block">arp-scan --interface=vmnet1 --localnet</div>
+
+                    <img src="../assets/writeups/webmin/2_Target_identification.png" alt="Identifying target host IP"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Only 2 hosts appear in this virtual network — one is the Kali machine, and
+                        the other one? That's the target. Simple. ✅</p>
+                </div>
+
+                <!-- 3. Verifying Connectivity -->
+                <div class="writeup-section">
+                    <h2>3. Verifying Connectivity 📡</h2>
+                    <p class="writeup-text">Now with the IP in hand, let's make sure the target is actually reachable
+                        before moving forward. A quick ping will do.</p>
+
+                    <img src="../assets/writeups/webmin/3_Ping_IP.png" alt="Verifying connectivity via ping"
+                        class="writeup-image">
+
+                    <p class="writeup-text">The target is live. Now, since this IP address will be used throughout the
+                        entire process, let's make things cleaner by adding it to <code>/etc/hosts</code> to reference
+                        it as <code>ctf</code>.</p>
+
+                    <div class="code-block">/etc/hosts</div>
+
+                    <img src="../assets/writeups/webmin/4_Edit_hosts.png" alt="Adding hostname entry in hosts file"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Let's verify it's working:</p>
+
+                    <img src="../assets/writeups/webmin/5_Ping_host.png" alt="Pinging the hostname ctf"
+                        class="writeup-image">
+
+                    <p class="writeup-text"><strong>Perfect.</strong> 🎉 The hostname resolves and responses are coming
+                        in. Ready to go.</p>
+                </div>
+
+                <!-- 4. Initial Nmap Scan -->
+                <div class="writeup-section">
+                    <h2>4. Initial Nmap Scan 🗺️</h2>
+                    <p class="writeup-text">Alright, let's see what's running on this machine. Starting with a basic SYN
+                        scan:</p>
+
+                    <div class="code-block">nmap -sS ctf</div>
+
+                    <img src="../assets/writeups/webmin/6_Nmap_scan1.png"
+                        alt="Initial Nmap scan results showing port 22" class="writeup-image">
+
+                    <p class="writeup-text">Hmm. Only <strong>SSH</strong> shows up. That's... odd. 🤔 SSH alone can't
+                        be the only attack surface in a task like this — something else must be running somewhere. The
+                        default nmap scan only covers the top 1000 ports. Let's not stop here.</p>
+                    <p class="writeup-text">Let's scan <strong>all 65535 ports</strong> this time:</p>
+
+                    <div class="code-block">nmap -sS -p- ctf</div>
+
+                    <img src="../assets/writeups/webmin/7_Nmap_scan2.png" alt="Full port Nmap scan showing port 1337"
+                        class="writeup-image">
+
+                    <p class="writeup-text">There it is! 👀 A service named <strong>waste</strong> is running on port
+                        <strong>1337</strong>. The default scan completely missed it. This is exactly why relying only
+                        on the default nmap scan is never a good idea — always go full range.
+                    </p>
+                </div>
+
+                <!-- 5. Service Version Detection -->
+                <div class="writeup-section">
+                    <h2>5. Service Version Detection 🔎</h2>
+                    <p class="writeup-text">Now let's dig deeper and find out exactly what is running on that port:</p>
+
+                    <div class="code-block">nmap -sC -sV -p- ctf</div>
+
+                    <img src="../assets/writeups/webmin/8_Nmap_scan3.png"
+                        alt="Nmap service version detection for Webmin" class="writeup-image">
+
+                    <p class="writeup-text">Port 1337 runs <strong>MiniServ 1.920 (Webmin)</strong> over HTTP.
+                        Interesting. 👁️ Let's pull it up in the browser:</p>
+
+                    <div class="code-block">http://ctf:1337</div>
+
+                    <img src="../assets/writeups/webmin/9_Accessing_1337.png"
+                        alt="Accessing the Webmin page on port 1337" class="writeup-image">
+
+                    <p class="writeup-text">A <strong>Webmin login page</strong>. Alright, let's try the classic move —
+                        default credentials: <strong>admin:admin</strong></p>
+
+                    <img src="../assets/writeups/webmin/10_Try_default_creds.png"
+                        alt="Attempting login with default credentials" class="writeup-image">
+
+                    <p class="writeup-text">And...</p>
+
+                    <img src="../assets/writeups/webmin/11_Failed_default_creds.png" alt="Webmin login failed message"
+                        class="writeup-image">
+
+                    <p class="writeup-text">No luck. ❌ It doesn't work. No surprise there, but always worth a shot.</p>
+                </div>
+
+                <!-- 6. Researching Webmin -->
+                <div class="writeup-section">
+                    <h2>6. Researching Webmin 📖</h2>
+                    <p class="writeup-text">Before going any further, let's understand what is actually being dealt with
+                        here.</p>
+
+                    <img src="../assets/writeups/webmin/12_Google_search.png"
+                        alt="Researching Webmin exploits on Google" class="writeup-image">
+
+                    <p class="writeup-text">Webmin is a <strong>free, open-source, web-based control panel</strong> used
+                        to administer Linux and Unix systems. Think of it as a GUI control panel for the Linux server —
+                        user management, file system access, service control, all from a browser. It is a high-value
+                        target if entry is possible. 💡</p>
+                    <p class="writeup-text">Now, the key factor here is the <strong>version</strong> — MiniServ
+                        <strong>1.920</strong>. Let's check if this specific version has any known CVEs.
+                    </p>
+
+                    <img src="../assets/writeups/webmin/13_Version_CVE_search.png" alt="Searching for Webmin 1.920 CVEs"
+                        class="writeup-image">
+
+                    <p class="writeup-text">And indeed, there it is. 😈</p>
+                </div>
+
+                <!-- 7. CVE-2019-15107 — Unauthenticated RCE -->
+                <div class="writeup-section">
+                    <h2>7. CVE-2019-15107 — Unauthenticated RCE 💥</h2>
+
+                    <img src="../assets/writeups/webmin/14_CVE_details.png" alt="Analyzing CVE-2019-15107 details"
+                        class="writeup-image">
+
+                    <p class="writeup-text"><strong>CVE-2019-15107</strong> — an <strong>Unauthenticated Remote Code
+                            Execution</strong> vulnerability affecting Webmin versions 1.890, 1.900, and 1.920.</p>
+                    <p class="writeup-text">Here is what is happening under the hood: these versions contain a command
+                        injection flaw through the <code>old</code> parameter in <code>password_change.cgi</code>. An
+                        unauthenticated attacker can inject and execute arbitrary commands on the web server — and best
+                        of all? It runs as <strong>root</strong>. 🔥</p>
+                    <p class="writeup-text">No credentials needed. Nothing else required. Let's find an exploit.</p>
+                </div>
+
+                <!-- 8. Checking ExploitDB -->
+                <div class="writeup-section">
+                    <h2>8. Checking ExploitDB 🗃️</h2>
+
+                    <img src="../assets/writeups/webmin/15_ExploitDB_Check.png"
+                        alt="Checking ExploitDB for Webmin exploits" class="writeup-image">
+
+                    <p class="writeup-text">A <strong>Metasploit module</strong> exists for this exact CVE. No need to
+                        write a single line of exploit code. 😎 Let's spin up msfconsole.</p>
+                </div>
+
+                <!-- 9. Exploitation with Metasploit -->
+                <div class="writeup-section">
+                    <h2>9. Exploitation with Metasploit ⚔️</h2>
+
+                    <div class="code-block">msfconsole</div>
+
+                    <img src="../assets/writeups/webmin/16_msfconsole.png" alt="Starting Metasploit Framework"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Now let's search for the exploit module:</p>
+
+                    <div class="code-block">search webmin 1.920</div>
+
+                    <img src="../assets/writeups/webmin/17_Search.png"
+                        alt="Searching for Webmin 1.920 Metasploit module" class="writeup-image">
+
+                    <p class="writeup-text">Found. Let's use that module and check the requirements:</p>
+
+                    <div class="code-block">show options</div>
+
+                    <img src="../assets/writeups/webmin/18_Requirements_Check.png"
+                        alt="Checking Metasploit exploit options" class="writeup-image">
+
+                    <p class="writeup-text">Here is what needs to be set:</p>
+                    <ul class="finding-list">
+                        <li><strong>RHOSTS</strong> — The target IP address.</li>
+                        <li><strong>RPORT</strong> — The port where Webmin runs. It defaults to 10000, but this target
+                            uses <strong>1337</strong>, so this must be updated.</li>
+                        <li><strong>LHOST</strong> — The attacker IP. This is critical ⚠️ — it <strong>must</strong> be
+                            the IP on the same network as the target, which in this case is <code>192.168.135.1</code>
+                            (vmnet1 interface). Accidentally setting it to wlan0 or any other interface causes the
+                            exploit to fail silently — no errors, just nothing. 😅</li>
+                    </ul>
+
+                    <p class="writeup-text">Let's set everything up:</p>
+
+                    <img src="../assets/writeups/webmin/19_Set_Options.png"
+                        alt="Configuring exploit parameters in Metasploit" class="writeup-image">
+
+                    <p class="writeup-text">Now for one final check before pulling the trigger:</p>
+
+                    <div class="code-block">show options</div>
+
+                    <img src="../assets/writeups/webmin/20_Recheck.png"
+                        alt="Double-checking Metasploit options before launch" class="writeup-image">
+
+                    <p class="writeup-text">Everything looks perfect. ✅ Let's run it.</p>
+
+                    <div class="code-block">run</div>
+
+                    <img src="../assets/writeups/webmin/21_Root_Access.png"
+                        alt="Successful exploitation and spawning root shell" class="writeup-image">
+
+                    <p class="writeup-text"><strong>Access granted. Root shell.</strong> 🎉🔓</p>
+                    <p class="writeup-text">CVE-2019-15107 has been successfully exploited on the Webmin service. No
+                        credentials, no brute force — just a clean unauthenticated RCE straight to root.</p>
+                </div>
+
+                <!-- 10. Stabilizing the Shell -->
+                <div class="writeup-section">
+                    <h2>10. Stabilizing the Shell 🛠️</h2>
+                    <p class="writeup-text">The initial shell is a bit raw and unstable. The natural first instinct is
+                        to upgrade it using Python with <code>/bin/bash</code>:</p>
+
+                    <div class="code-block">python3 -c 'import pty; pty.spawn(&quot;/bin/bash&quot;)'</div>
+
+
+
+                    <p class="writeup-text">But wait — it fails. ❌ The reason? This target doesn't have
+                        <code>/bin/bash</code> at all. The shell available here is <code>/bin/sh</code>. So the python
+                        pty approach hits a dead end.</p>
+                    <p class="writeup-text">No worries though — let's just spawn <code>/bin/sh</code> directly in
+                        interactive mode: 💡</p>
+
+                    <div class="code-block">/bin/sh -i</div>
+
+                    <img src="../assets/writeups/webmin/22_Interactive_Shell.png"
+                        alt="Python pty spawn failing due to missing bash" class="writeup-image">
+                    <p class="writeup-text">And that does it. 😌 A proper interactive shell is now available. Always
+                        check what shells are actually present on the target before assuming <code>/bin/bash</code>
+                        exists — not every system has it.</p>
+                </div>
+
+                <!-- 11. Finding the Flags -->
+                <div class="writeup-section">
+                    <h2>11. Finding the Flags 🚩</h2>
+                    <p class="writeup-text">Let's head over to the root directory:</p>
+
+                    <div class="code-block">cd /root</div>
+
+                    <p class="writeup-text">Listing the contents reveals two directories: <code>invin</code> and
+                        <code>test</code>. The <code>invin</code> folder looks suspicious. Let's check it out:
+                    </p>
+
+                    <div class="code-block">ls</div>
+
+                    <p class="writeup-text">Nothing shows up. Hmm. 🤨 Let's look for hidden files:</p>
+
+                    <div class="code-block">ls -la</div>
+
+                    <img src="../assets/writeups/webmin/23_Flag1.png" alt="Finding first flag in secret file"
+                        class="writeup-image">
+
+                    <p class="writeup-text">A hidden file is found — <strong>.secret.txt</strong>. Reading it reveals
+                        the <strong>first flag</strong>. 🚩✅</p>
+                    <p class="writeup-text">Now let's check what is inside the <code>test</code> directory:</p>
+
+                    <img src="../assets/writeups/webmin/24_Test_directory.png" alt="Checking test directory contents"
+                        class="writeup-image">
+
+                    <p class="writeup-text">This one holds the web content for the Webmin service — nothing useful here.
+                        Let's keep enumerating.</p>
+                    <p class="writeup-text">Checking the home directory for user accounts:</p>
+
+                    <img src="../assets/writeups/webmin/25_Home_directory.png" alt="Checking home directory contents"
+                        class="writeup-image">
+
+                    <p class="writeup-text">Empty. No users here. Let's cast a wider net and search the entire
+                        filesystem for <code>.txt</code> files:</p>
+
+                    <div class="code-block">find / -type f -iname &quot;*.txt&quot; 2&gt;/dev/null</div>
+
+                    <img src="../assets/writeups/webmin/26_txt_search.png"
+                        alt="Searching the entire filesystem for flag text files" class="writeup-image">
+
+                    <p class="writeup-text">A file named <strong>proof.txt</strong> sits inside <code>/opt</code>. Let's
+                        read it:</p>
+
+                    <img src="../assets/writeups/webmin/27_Flag2.png" alt="Finding second flag in opt directory"
+                        class="writeup-image">
+
+                    <p class="writeup-text"><strong>Second flag obtained.</strong> 🚩🎯</p>
+                </div>
+
+                <!-- 12. Key Takeaways -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>12. Key Takeaways 📝</h2>
+                    <ul class="finding-list">
+                        <li>🗺️ <strong>Never trust the default nmap scan.</strong> It only covers the top 1000 ports.
+                            Always run <code>-p-</code> to scan the full range — you never know what is hiding on an
+                            unusual port like 1337.</li>
+                        <li>🔍 <strong>Version numbers matter.</strong> Once a service is identified, always check if
+                            the specific version has known CVEs. That is often the fastest path in.</li>
+                        <li>⚔️ <strong>Metasploit is highly effective.</strong> For well-documented CVEs with existing
+                            modules, Metasploit gives reliable exploit delivery and clean session handling.</li>
+                    </ul>
+                    <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 2rem 0;">
+                    <p class="writeup-text">That's a wrap on this one. 🙌 Hopefully this walkthrough helped clarify the
+                        core process rather than just providing steps to follow. See you in the next one. 👋</p>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
