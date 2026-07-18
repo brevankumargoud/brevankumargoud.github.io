@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingsman — Internal Penetration Test Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">&gt; cat kingsman_notes.txt</p>
+                <h1 class="section-title">Kingsman — Internal Penetration Test Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">HackersDaddy
+                        Internship</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Linux
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Joomla
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege
+                        Escalation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Post
+                        Exploitation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Introduction -->
+                <div class="writeup-section">
+                    <h2>1. Introduction</h2>
+                    <p class="writeup-text">This walkthrough documents one of the machines I tackled during my
+                        cybersecurity internship. The target, "Kingsman," was spun up in a VMware lab environment, and
+                        the goal — as with any good box — was simple to state and satisfying to execute: enumerate,
+                        exploit, escalate. Let's dive in. 🚀</p>
+                </div>
+
+                <!-- 2. Reconnaissance -->
+                <div class="writeup-section">
+                    <h2>2. Reconnaissance</h2>
+                    <p class="writeup-text">Before we can attack anything, we need to know where we stand. Let's begin
+                        by checking the available network interfaces on our attacker machine.</p>
+                    <div class="code-block">ifconfig</div>
+                    <img src="../assets/writeups/KingsMan/1_Interface_check.png" alt="Network interface verification"
+                        class="writeup-image">
+                    <p class="writeup-text">We can see two virtual network interfaces present — vmnet1 and vmnet8. One
+                        of these should be bridging us to the target.</p>
+                    <p class="writeup-text">To figure out which one, let's scan both interfaces using arp-scan and see
+                        what turns up.</p>
+                    <div class="code-block">arp-scan --interface=vmnet8 --localnet</div>
+                    <img src="../assets/writeups/KingsMan/2_Discovered_IP.png" alt="Target discovery scan"
+                        class="writeup-image">
+                    <p class="writeup-text">That confirms it — the target's IP address is sitting on the vmnet8
+                        interface. 🎯</p>
+                    <p class="writeup-text">A quick connectivity check is in order before we go any further.</p>
+                    <div class="code-block">ping -c4 &lt;target-ip&gt;</div>
+                    <img src="../assets/writeups/KingsMan/3_Basic_Ping.png" alt="Checking ICMP response"
+                        class="writeup-image">
+                    <p class="writeup-text">The target responds cleanly. We're good to proceed.</p>
+                    <p class="writeup-text">Rather than typing out the raw IP every time, it's worth adding it to our
+                        /etc/hosts file so we can reference it by name going forward.</p>
+                    <div class="code-block">nano /etc/hosts</div>
+                    <p class="writeup-text">(This command requires sudo privileges)</p>
+                    <img src="../assets/writeups/KingsMan/4_nano_edit.png" alt="Updating target in /etc/hosts"
+                        class="writeup-image">
+                    <p class="writeup-text">With the entry added, let's confirm name resolution is working as expected.
+                    </p>
+                    <div class="code-block">ping -c4 kingsman</div>
+                    <img src="../assets/writeups/KingsMan/5_Name_Ping.png" alt="Confirming name resolution"
+                        class="writeup-image">
+                    <p class="writeup-text">Everything checks out. Time to move into proper enumeration.</p>
+                </div>
+
+                <!-- 3. Service Enumeration -->
+                <div class="writeup-section">
+                    <h2>3. Service Enumeration</h2>
+                    <p class="writeup-text">With connectivity confirmed, the next logical step is to find out what's
+                        actually running on this machine. Let's run an Nmap scan to identify open ports, the services
+                        behind them, and their versions — this will shape our entire attack strategy going forward.</p>
+                    <div class="code-block">nmap -sC -sV -oN nmap_scan.txt kingsman</div>
+                    <img src="../assets/writeups/KingsMan/6_Nmap_Script.png" alt="Nmap service scan results"
+                        class="writeup-image">
+                    <p class="writeup-text">Interesting... the scan reveals an FTP service, and it's accepting anonymous
+                        logins. 🔍 That immediately stands out — whenever FTP is running with anonymous access enabled,
+                        it's almost always worth checking first. It's low-hanging fruit that's surprisingly common in
+                        the wild, and it deserves a closer look before we move anywhere else.</p>
+                </div>
+
+                <!-- 4. Exploring FTP -->
+                <div class="writeup-section">
+                    <h2>4. Exploring FTP</h2>
+                    <p class="writeup-text">Let's authenticate to the FTP service using the classic anonymous
+                        credentials (anonymous:anonymous).</p>
+                    <div class="code-block">ftp kingsman</div>
+                    <img src="../assets/writeups/KingsMan/7_FTP_Login.png" alt="FTP anonymous login"
+                        class="writeup-image">
+                    <p class="writeup-text">We're in. Time to see what's sitting in the current directory.</p>
+                    <div class="code-block">ls</div>
+                    <img src="../assets/writeups/KingsMan/8_Extended_Passive_Mode.png" alt="EPSV mode listing failure"
+                        class="writeup-image">
+                    <p class="writeup-text">The moment we issued the ls command, the server attempted to establish the
+                        data connection using Extended Passive Mode (EPSV). Unfortunately, either the server or the
+                        lab's network didn't properly support the EPSV data channel, so the directory listing failed to
+                        complete. We'll need to abort and adjust our approach.</p>
+                    <p class="writeup-text">Let's forcibly disable EPSV and fall back to standard passive mode.</p>
+                    <div class="code-block">epsv4</div>
+                    <div class="code-block">passive</div>
+                    <p class="writeup-text">With passive mode now disabled, let's verify that the listing works this
+                        time.</p>
+                    <div class="code-block">ls</div>
+                    <img src="../assets/writeups/KingsMan/9_Flag1_File.png" alt="Directories listing in passive mode"
+                        class="writeup-image">
+                    <p class="writeup-text">It does — and we can see there's only a single file present: flag.txt.
+                        Nothing else to explore here.</p>
+                    <p class="writeup-text">Let's grab that file and read its contents.</p>
+                    <div class="code-block">get flag.txt</div>
+                    <div class="code-block">exit</div>
+                    <div class="code-block">cat flag.txt</div>
+                    <img src="../assets/writeups/KingsMan/10_Flag1_Value.png" alt="Captured FTP flag"
+                        class="writeup-image">
+                    <p class="writeup-text">First flag captured. 🚩 With FTP fully picked apart and nothing left to
+                        find, it's time to shift focus back to the remaining attack surface.</p>
+                </div>
+
+                <!-- 5. Web Enumeration -->
+                <div class="writeup-section">
+                    <h2>5. Web Enumeration</h2>
+                    <p class="writeup-text">Going back to our Nmap results, port 80 is open — the default port for HTTP.
+                        That naturally becomes our next target.</p>
+                    <p class="writeup-text">Let's pull up the service in a browser and see what we're working with.</p>
+                    <img src="../assets/writeups/KingsMan/11_Webpage.png" alt="Web application home page"
+                        class="writeup-image">
+                    <p class="writeup-text">A standard webpage greets us. Nothing immediately actionable on the surface,
+                        so let's dig deeper with a directory brute-force to uncover any hidden paths.</p>
+                    <div class="code-block">gobuster dir -u http://kingsman -w /usr/share/wordlists/dirb/common.txt
+                    </div>
+                    <img src="../assets/writeups/KingsMan/12_Directories.png" alt="Gobuster directory brute force"
+                        class="writeup-image">
+                    <p class="writeup-text">Gobuster turns up several accessible directories. One of them, /tmp,
+                        contains a hint file.</p>
+                    <img src="../assets/writeups/KingsMan/13_Hint1.png" alt="Temporary directory hint file"
+                        class="writeup-image">
+                    <p class="writeup-text">This looks like an ASCII sequence rather than plain text. Decoding it should
+                        reveal something more meaningful.</p>
+                    <img src="../assets/writeups/KingsMan/14_Ascii_Decoded.png" alt="Decoding ASCII sequence"
+                        class="writeup-image">
+                    <p class="writeup-text">Once decoded, the message reads:</p>
+                    <p class="writeup-text">"are you looking for me? here i am [ k!ng3@k3r#$ ]"</p>
+                    <p class="writeup-text">The portion inside the square brackets has the look of a password. That
+                        gives us our next lead, so let's hold onto it.</p>
+                    <p class="writeup-text">Among the directories Gobuster found earlier, there was also a
+                        /administrator/ path. Let's see where that leads.</p>
+                    <img src="../assets/writeups/KingsMan/15_Admin_login.png" alt="Joomla administrator login panel"
+                        class="writeup-image">
+                    <p class="writeup-text">That's a Joomla login page. 💡 Joomla is a widely used open-source content
+                        management system, and its admin panel is a frequent target during assessments — misconfigured
+                        credentials or vulnerable components here can often lead straight to code execution.</p>
+                    <p class="writeup-text">Let's test our luck with administrator:k!ng3@k3r#$.</p>
+                    <img src="../assets/writeups/KingsMan/16_Administrator_Uname.png" alt="Joomla credentials check"
+                        class="writeup-image">
+                    <p class="writeup-text">No luck.</p>
+                    <img src="../assets/writeups/KingsMan/17_Failed_Login.png" alt="Failed login message"
+                        class="writeup-image">
+                    <p class="writeup-text">Rather than stopping here, let's think back over what we've already seen.
+                        While browsing the site earlier, one name kept surfacing repeatedly: "kingmaker." Let's try that
+                        as the username instead, paired with the password we decoded.</p>
+                    <img src="../assets/writeups/KingsMan/18_Kingmaker_Uname.png" alt="Trying username kingmaker"
+                        class="writeup-image">
+                    <p class="writeup-text">And there it is — the login succeeds. 🔓</p>
+                    <img src="../assets/writeups/KingsMan/19_Login_Success.png" alt="Joomla Dashboard access"
+                        class="writeup-image">
+                    <p class="writeup-text">This is a good reminder of why predictable or default usernames paired with
+                        leaked passwords are such a dangerous combination — always favor uncommon, unique credentials
+                        wherever possible.</p>
+                </div>
+
+                <!-- 6. Gaining Code Execution via Joomla -->
+                <div class="writeup-section">
+                    <h2>6. Gaining Code Execution via Joomla</h2>
+                    <p class="writeup-text">We're now sitting inside the Joomla control panel, which gives us a good
+                        overview of the site's configuration and structure.</p>
+                    <img src="../assets/writeups/KingsMan/20_Joomla_Version.png" alt="Joomla panel overview"
+                        class="writeup-image">
+                    <p class="writeup-text">At this point, our objective shifts from access to execution. Whenever we
+                        land inside a web control panel like this, the next move is to look for any functionality that
+                        lets us edit files stored on the webserver — or better yet, upload our own.</p>
+                    <p class="writeup-text">The Templates section is a good place to start, since it typically holds
+                        editable PHP files that the webserver executes directly.</p>
+                    <img src="../assets/writeups/KingsMan/21_Templates_Option.png" alt="Templates configuration path"
+                        class="writeup-image">
+                    <p class="writeup-text">From here, we find another Templates option nested within. Worth following
+                        through as well.</p>
+                    <img src="../assets/writeups/KingsMan/22_Templates_Opened.png" alt="Nested templates selection"
+                        class="writeup-image">
+                    <p class="writeup-text">Now we've got a list of editable PHP files sitting right in front of us.</p>
+                    <img src="../assets/writeups/KingsMan/23_Templates_Edit.png" alt="Joomla template manager edit list"
+                        class="writeup-image">
+                    <p class="writeup-text">Template Manager, for context, is the Joomla component that lets
+                        administrators customize the site's appearance — and because it allows direct editing of PHP
+                        files that live on the server, it's a well-known avenue for achieving remote code execution once
+                        admin access is obtained.</p>
+                    <p class="writeup-text">With editable PHP files in reach, the plan becomes straightforward. Let's
+                        grab a PHP reverse shell payload from revshells.com — a PHP reverse shell is simply a script
+                        that, once executed by the webserver, opens an outbound connection back to an IP and port we
+                        control, effectively handing us a shell on the target. We'll paste this payload into one of the
+                        editable PHP files inside the Templates section, making sure to set our attacker IP correctly
+                        beforehand.</p>
+                    <img src="../assets/writeups/KingsMan/24_PHP_Pasted.png" alt="Injecting PHP reverse shell payload"
+                        class="writeup-image">
+                    <p class="writeup-text">Before triggering execution, we need a listener ready to catch the incoming
+                        connection.</p>
+                    <div class="code-block">nc -lvnp 4444</div>
+                    <img src="../assets/writeups/KingsMan/25_NC_Listener.png" alt="Netcat port listener setup"
+                        class="writeup-image">
+                    <p class="writeup-text">With the listener ready, it's time to make the server actually execute our
+                        payload. That means visiting the modified file's URL directly:</p>
+                    <p class="writeup-text">http://kingsman/templates/beez3/error.php</p>
+                    <img src="../assets/writeups/KingsMan/26_Link_Accessing.png"
+                        alt="Triggering shell execution via browser" class="writeup-image">
+                    <p class="writeup-text">The moment we hit that URL, our listener catches a connection — we've got a
+                        reverse shell. 🛠️</p>
+                    <img src="../assets/writeups/KingsMan/27_Obtained_Shell.png" alt="Spawning reverse shell session"
+                        class="writeup-image">
+                </div>
+
+                <!-- 7. Shell Stabilization and Local Enumeration -->
+                <div class="writeup-section">
+                    <h2>7. Shell Stabilization and Local Enumeration</h2>
+                    <p class="writeup-text">The shell we've landed is functional but fragile — no proper terminal
+                        features, and prone to dropping. Before going any further, let's stabilize it by spawning a
+                        Python PTY shell, which gives us a proper interactive terminal with job control, tab completion,
+                        and a much lower chance of losing our session.</p>
+                    <div class="code-block">python3 -c 'import pty; pty.spawn("/bin/bash")'</div>
+                    <img src="../assets/writeups/KingsMan/28_Stabilizing_Shell.png" alt="Upgrading reverse shell to PTY"
+                        class="writeup-image">
+                    <p class="writeup-text">With a stable shell now in hand, it's time to look around and see what the
+                        local filesystem has to offer. Let's search for anything related to flags.</p>
+                    <div class="code-block">find / -iname '*flag*' 2>/dev/null</div>
+                    <img src="../assets/writeups/KingsMan/29_Flag_Search.png" alt="Searching files for flags"
+                        class="writeup-image">
+                    <p class="writeup-text">We can see a flag.txt sitting inside /srv/ftp — the same flag we already
+                        recovered through anonymous FTP access earlier. But there's also a second flag.txt inside
+                        /srv/samba/public, which is almost certainly tied to a Samba share we hadn't gotten around to
+                        exploring yet. That gives us another lead to follow.</p>
+                    <img src="../assets/writeups/KingsMan/30_Flag2.png" alt="Discovering second flag file"
+                        class="writeup-image">
+                    <p class="writeup-text">In that same directory, there's a hint.txt file as well — worth reading,
+                        since it could point us toward our next step.</p>
+                    <div class="code-block">cat /srv/samba/public/hint.txt</div>
+                    <img src="../assets/writeups/KingsMan/31_Hint.png" alt="Reading public share hint"
+                        class="writeup-image">
+                    <p class="writeup-text">It contains a Base64-encoded string. Base64 is an encoding scheme (not
+                        encryption) commonly used to represent binary or sensitive-looking data as plain text — it's
+                        trivial to reverse, but it's often used to casually obscure credentials or hints like this one.
+                    </p>
+                    <p class="writeup-text">Let's decode it and see what we're dealing with.</p>
+                    <img src="../assets/writeups/KingsMan/32_Hint_Decoded.png"
+                        alt="Base64 decoding for user credentials" class="writeup-image">
+                    <p class="writeup-text">The decoded string reveals login credentials belonging to a user named
+                        "ironman." With credentials in hand, let's switch users and see what that account gives us
+                        access to.</p>
+                    <img src="../assets/writeups/KingsMan/33_Ironman_Loggedin.png"
+                        alt="Authenticated user ironman session" class="writeup-image">
+                    <p class="writeup-text">We've successfully authenticated as ironman — but a quick check confirms
+                        this account doesn't have superuser privileges. Rather than stopping here, we push forward and
+                        start hunting for a path to root.</p>
+                </div>
+
+                <!-- 8. Privilege Escalation -->
+                <div class="writeup-section">
+                    <h2>8. Privilege Escalation</h2>
+                    <p class="writeup-text">With a foothold secured but no elevated access, the natural next step is to
+                        search for SUID binaries with irregular or unusual permissions. These are files that run with
+                        the owner's privileges (often root) regardless of who executes them, and misconfigured ones are
+                        a classic privilege escalation vector.</p>
+                    <div class="code-block">find / -user root -perm /4000 2>/dev/null</div>
+                    <img src="../assets/writeups/KingsMan/34_SUID_BIN_Check.png" alt="Checking SUID permissions"
+                        class="writeup-image">
+                    <p class="writeup-text">That immediately catches our attention: an unusual binary named
+                        priv_escalation, sitting inside /usr/local/bin. Given the name alone, this looks almost too
+                        convenient — but there's only one way to find out. Let's run it and see what happens.</p>
+                    <div class="code-block">priv_escalation</div>
+                    <p class="writeup-text">And just like that, the shell drops us in as root.</p>
+                    <img src="../assets/writeups/KingsMan/35_Bin_Execution.png" alt="Root shell spawned successfully"
+                        class="writeup-image">
+                    <p class="writeup-text">🎯 After working through FTP, decoding hints, chaining Joomla credentials
+                        into remote code execution, and pivoting through a second user account, this is the payoff —
+                        full administrative control over the machine. <br><br> root access secured, the box is fully
+                        compromised — the FTP flag, the web flag, and complete administrative control all captured along
+                        the way.</p>
+                </div>
+
+                <!-- 9. Key Takeaways -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>9. Key Takeaways</h2>
+                    <ul class="finding-list">
+                        <li>Anonymous FTP access, even when it seems harmless, should always be checked first — it's a
+                            common source of easy wins and often leaks useful information.</li>
+                        <li>Directory brute-forcing is essential for surfacing hidden paths and files that aren't linked
+                            anywhere on the visible site.</li>
+                        <li>Reused or thematic usernames (like "kingmaker" showing up repeatedly across the site) can be
+                            just as exploitable as weak passwords — always pay attention to naming patterns during
+                            enumeration.</li>
+                        <li>Web control panels like Joomla's Template Manager, when accessible, frequently offer a
+                            direct path to remote code execution through editable PHP files.</li>
+                        <li>Unstable reverse shells should always be upgraded to a proper PTY shell for reliability and
+                            usability during post-exploitation.</li>
+                        <li>Encoded strings (ASCII sequences, Base64, etc.) are commonly used to hide credentials in
+                            plain sight — always decode anything that looks suspicious.</li>
+                        <li>SUID binaries with unusual or unnecessary permissions represent one of the most common and
+                            dangerous privilege escalation vectors on Linux systems — proper permission hygiene is
+                            critical.</li>
+                    </ul>
+                    <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 2rem 0;">
+                    <p class="writeup-text">No single step in this assessment was, on its own, a critical vulnerability.
+                        Anonymous FTP access, a decodable hint, a reused username, an editable template file, an
+                        unattended hint.txt — each one looked minor in isolation. But chained together, they walked us
+                        from an unauthenticated connection all the way to root. That's the real lesson this machine
+                        teaches: attackers rarely need one big flaw when several small ones are willing to cooperate.
+                        Assessing systems in isolation misses the bigger picture — it's the chain, not the individual
+                        link, that determines how far an attacker can actually go.</p>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
