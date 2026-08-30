@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Robot — Full Walkthrough | Revan Kumar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .writeup-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .writeup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .writeup-section {
+            margin-bottom: 3rem;
+        }
+
+        .writeup-section h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-section h2::before {
+            content: '>';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            font-family: monospace;
+        }
+
+        .writeup-section h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .writeup-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.2rem;
+            font-family: monospace;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .writeup-image {
+            max-width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color var(--transition-fast);
+        }
+
+        .writeup-image:hover {
+            border-color: rgba(255, 42, 42, 0.5);
+        }
+
+        .finding-list {
+            list-style-type: none;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .finding-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .finding-list li::before {
+            content: '>';
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section style="padding: 4rem 0 2rem 0;">
+            <div>
+                <p class="terminal-text" style="margin-bottom: 0.5rem;">&gt; cat mr.robot_write-up.txt</p>
+                <h1 class="section-title">Mr. Robot – Full Walkthrough</h1>
+
+                <div class="badge-container">
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Linux
+                        Exploitation</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Mr. Robot</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Web
+                        Enumeration</span>
+                    <span class="badge"
+                        style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege
+                        Escalation</span>
+                </div>
+            </div>
+
+            <div class="writeup-content">
+
+                <!-- 1. Introduction -->
+                <div class="writeup-section">
+                    <h2>1. Introduction</h2>
+                    <p class="writeup-text">This room is based on the popular Mr. Robot television series, which I'm a
+                        huge fan of.</p>
+                    <p class="writeup-text">So naturally, I was pretty excited to take on this machine and see if I
+                        could root it. 😎</p>
+                    <p class="writeup-text">The objective is straightforward: enumerate the target, find a way in, work
+                        our way through the machine, and eventually get root access.</p>
+                    <p class="writeup-text">So, let's get started. 🚀</p>
+                </div>
+
+                <!-- 2. Connecting to the Target -->
+                <div class="writeup-section">
+                    <h2>2. Connecting to the Target</h2>
+                    <p class="writeup-text">I first connected to the TryHackMe network using OpenVPN and obtained the
+                        target machine's IP address.</p>
+                    <p class="writeup-text">For ease of use, I added the target IP to my <code>/etc/hosts</code> file
+                        and assigned it a hostname that I could use throughout the walkthrough.</p>
+                    <img src="../assets/writeups/mr.robot/1_Host_Edit.png" alt="Configuring host entry in /etc/hosts"
+                        class="writeup-image">
+                    <p class="writeup-text">Now let's make sure the hostname is resolving correctly by pinging the
+                        machine.</p>
+                    <div class="code-block">ping mr-robot.thm</div>
+                    <img src="../assets/writeups/mr.robot/2_Ping.png" alt="Testing connection to target using ping"
+                        class="writeup-image">
+                    <p class="writeup-text">Let's gooo! 🔥</p>
+                    <p class="writeup-text">The machine is reachable through the hostname, so we're good to start our
+                        enumeration.</p>
+                </div>
+
+                <!-- 3. Initial Enumeration -->
+                <div class="writeup-section">
+                    <h2>3. Initial Enumeration</h2>
+                    <p class="writeup-text">Now let's start by scanning the target with Nmap to identify the open ports,
+                        services running on them, and their versions.</p>
+                    <div class="code-block">nmap -sC -sV mr-robot.thm</div>
+                    <img src="../assets/writeups/mr.robot/3_nmap_scan.png" alt="Nmap service scanning results"
+                        class="writeup-image">
+                    <p class="writeup-text">The scan reveals three open ports:</p>
+                    <ul class="finding-list">
+                        <li>Port 22 &ndash; SSH</li>
+                        <li>Port 80 &ndash; HTTP</li>
+                        <li>Port 443 &ndash; HTTPS</li>
+                    </ul>
+                    <p class="writeup-text">Since we have a web service running on port 80, let's see what is waiting
+                        for us there.</p>
+                </div>
+
+                <!-- 4. Exploring the Web Application -->
+                <div class="writeup-section">
+                    <h2>4. Exploring the Web Application</h2>
+                    <p class="writeup-text">Let's open the website in the browser using the hostname we configured
+                        earlier.</p>
+                    <img src="../assets/writeups/mr.robot/4_web_interface.png"
+                        alt="Accessing target web page in browser" class="writeup-image">
+                    <p class="writeup-text">Interesting... 👀</p>
+                    <p class="writeup-text">We are greeted by a terminal-themed web interface inspired by Mr. Robot.</p>
+                    <p class="writeup-text">There are also a few commands that can be executed through the interface, so
+                        let's see if any of them reveal something useful.</p>
+                    <img src="../assets/writeups/mr.robot/5_web_interface.png"
+                        alt="Testing commands inside web interface" class="writeup-image">
+                    <p class="writeup-text">After going through the available commands, though, they seem to be mainly
+                        for simple interaction with the interface. Nothing immediately useful comes out of them that we
+                        can act on.</p>
+                    <p class="writeup-text">So, if the interesting stuff isn't sitting in plain sight, let's start
+                        looking for what might be hidden.</p>
+                </div>
+
+                <!-- 5. Finding Hidden Directories -->
+                <div class="writeup-section">
+                    <h2>5. Finding Hidden Directories</h2>
+                    <p class="writeup-text">Let's use Gobuster to brute-force directories on the target and see if we
+                        can uncover any interesting paths.</p>
+                    <div class="code-block">gobuster dir -u http://mr-robot.thm -w /usr/share/wordlists/dirb/common.txt
+                    </div>
+                    <img src="../assets/writeups/mr.robot/6_Directories_discovered.png"
+                        alt="Gobuster directory brute force output" class="writeup-image">
+                    <p class="writeup-text">And we have a few interesting findings:</p>
+                    <ul class="finding-list">
+                        <li><code>/license</code></li>
+                        <li><code>/robots</code></li>
+                        <li><code>/wp-login</code></li>
+                    </ul>
+                    <p class="writeup-text">These immediately stand out as paths worth investigating.</p>
+                    <p class="writeup-text">So let's explore them one by one. 🔍</p>
+                </div>
+
+                <!-- 6. Exploring `/license` -->
+                <div class="writeup-section">
+                    <h2>6. Exploring `/license`</h2>
+                    <p class="writeup-text">Let's start with <code>/license</code>.</p>
+                    <img src="../assets/writeups/mr.robot/7_License.png" alt="Navigating to license file in browser"
+                        class="writeup-image">
+                    <p class="writeup-text">WOWWWW! 😂</p>
+                    <p class="writeup-text">The page contains a message asking:</p>
+                    <p class="writeup-text">"do you want a password or something?"</p>
+                    <p class="writeup-text">Well... that definitely sounds interesting.</p>
+                    <p class="writeup-text">Looking further down the page, we also find an encoded message.</p>
+                    <p class="writeup-text">The encoding looks like Base64, so let's decode it using CyberChef.</p>
+                    <img src="../assets/writeups/mr.robot/8_Decoded.png" alt="Decoding Base64 data with CyberChef"
+                        class="writeup-image">
+                    <p class="writeup-text">Yayy! 🎯</p>
+                    <p class="writeup-text">The decoded content contains a username and password.</p>
+                    <p class="writeup-text">That's definitely useful.</p>
+                    <p class="writeup-text">Let's save those credentials for later and continue exploring the other
+                        paths we discovered during directory enumeration.</p>
+                </div>
+
+                <!-- 7. Exploring `/robots` -->
+                <div class="writeup-section">
+                    <h2>7. Exploring `/robots`</h2>
+                    <p class="writeup-text">Next up, let's check <code>/robots</code>.</p>
+                    <p class="writeup-text">We find two interesting entries:</p>
+                    <img src="../assets/writeups/mr.robot/9_robots.png" alt="Discovered entries in robots.txt"
+                        class="writeup-image">
+                    <ul class="finding-list">
+                        <li><code>fsocity.dic</code></li>
+                        <li><code>key-1-of-3.txt</code></li>
+                    </ul>
+                    <p class="writeup-text">Both of these look promising.</p>
+                    <p class="writeup-text">Let's grab the first key before moving on.</p>
+                    <p class="writeup-text">Opening:</p>
+                    <p class="writeup-text"><code>/key-1-of-3.txt</code></p>
+                    <img src="../assets/writeups/mr.robot/10_Key1.png" alt="Reading key-1-of-3.txt"
+                        class="writeup-image">
+                    <p class="writeup-text">And there it is!</p>
+                    <p class="writeup-text">🔑 Key 1 acquired.</p>
+                    <p class="writeup-text">Now let's investigate <code>fsocity.dic</code>.</p>
+                    <img src="../assets/writeups/mr.robot/11_Discovered_wordlist.png"
+                        alt="Inspecting fsocity.dic file contents" class="writeup-image">
+                    <p class="writeup-text">Interesting.</p>
+                    <p class="writeup-text">The file contains a wordlist of passwords.</p>
+                    <p class="writeup-text">This could become useful during our further exploration, especially since
+                        we've already discovered a login page and credentials.</p>
+                    <p class="writeup-text">So let's save the wordlist for later.</p>
+                    <img src="../assets/writeups/mr.robot/12_Pasted_wordlist.png"
+                        alt="Saving wordlist to local dictionary file" class="writeup-image">
+                    <p class="writeup-text">With that done, let's move on to the WordPress login page we discovered
+                        earlier.</p>
+                </div>
+
+                <!-- 8. Getting Into WordPress -->
+                <div class="writeup-section">
+                    <h2>8. Getting Into WordPress</h2>
+                    <p class="writeup-text">Let's head over to <code>/wp-login</code> and try the credentials we
+                        discovered from the <code>/license</code> page.</p>
+                    <img src="../assets/writeups/mr.robot/13_WP_Login.png" alt="WordPress login screen input"
+                        class="writeup-image">
+                    <p class="writeup-text">And...</p>
+                    <p class="writeup-text">Yep. We're in! 🔓</p>
+                    <img src="../assets/writeups/mr.robot/14_WP_Dashboard.png"
+                        alt="Logged into WordPress dashboard as elliot" class="writeup-image">
+                    <p class="writeup-text">We've successfully logged in as the elliot user, and it looks like this
+                        account has administrator privileges.</p>
+                    <p class="writeup-text">Now things are getting interesting.</p>
+                    <p class="writeup-text">As an administrator, we have access to functionality that allows us to edit
+                        PHP files belonging to the website.</p>
+                    <p class="writeup-text">Let's take a look at that.</p>
+                    <img src="../assets/writeups/mr.robot/15_Editor_Tab.png" alt="Navigating to WordPress theme editor"
+                        class="writeup-image">
+                    <p class="writeup-text">This is exactly what we need.</p>
+                    <p class="writeup-text">If we can modify one of these PHP files and get the web server to execute
+                        our code, we should be able to turn our WordPress administrator access into a shell on the
+                        underlying machine.</p>
+                    <p class="writeup-text">So, let's go for a reverse shell. 🐚</p>
+                </div>
+
+                <!-- 9. Getting a Reverse Shell -->
+                <div class="writeup-section">
+                    <h2>9. Getting a Reverse Shell</h2>
+                    <p class="writeup-text">For this, let's grab a PHP reverse shell from revshells.com.</p>
+                    <p class="writeup-text">A commonly used option is the PHP Pentest Monkey reverse shell.</p>
+                    <p class="writeup-text">We'll configure it with our attacker IP address and the port on which we
+                        want to receive the connection.</p>
+                    <img src="../assets/writeups/mr.robot/16_Reverse_Shell.png"
+                        alt="Configuring reverse shell on revshells.com" class="writeup-image">
+                    <p class="writeup-text">Once the payload is configured, let's copy it and paste it into one of the
+                        editable PHP files in the WordPress editor.</p>
+                    <p class="writeup-text">After pasting the code, save the changes.</p>
+                    <img src="../assets/writeups/mr.robot/17_Pasted_Shell.png"
+                        alt="Pasting payload into WordPress theme files" class="writeup-image">
+                    <p class="writeup-text">Before triggering the reverse shell, we need to start a listener on our
+                        attacking machine.</p>
+                    <p class="writeup-text">Let's use Netcat for that.</p>
+                    <div class="code-block">nc -lvnp 4444</div>
+                    <img src="../assets/writeups/mr.robot/18_NC_Listener.png" alt="Starting netcat port listener"
+                        class="writeup-image">
+                    <p class="writeup-text">The listener is ready.</p>
+                    <p class="writeup-text">Now let's trigger the reverse shell by accessing the modified PHP file
+                        through the browser:</p>
+                    <p class="writeup-text"><code>http://mr-robot.thm/&lt;reverse-shell.php&gt;</code></p>
+                    <p class="writeup-text">And...</p>
+                    <p class="writeup-text">We've got a connection! 🔥</p>
+                    <img src="../assets/writeups/mr.robot/19_Obtained_Shell.png"
+                        alt="Reverse shell session received in terminal" class="writeup-image">
+                    <p class="writeup-text">We now have a PHP reverse shell on the target.</p>
+                    <p class="writeup-text">That's our initial foothold.</p>
+                </div>
+
+                <!-- 10. Stabilizing the Shell -->
+                <div class="writeup-section">
+                    <h2>10. Stabilizing the Shell</h2>
+                    <p class="writeup-text">The reverse shell we've obtained is functional, but it's not exactly the
+                        most comfortable environment to work with.</p>
+                    <p class="writeup-text">So let's make it more interactive using a Python PTY shell.</p>
+                    <div class="code-block">python -c 'import pty;pty.spawn("/bin/bash")'</div>
+                    <img src="../assets/writeups/mr.robot/20_Interactive_Shell.png"
+                        alt="Upgrading reverse shell to interactive PTY" class="writeup-image">
+                    <p class="writeup-text">Much better.</p>
+
+                </div>
+
+                <!-- 11. Finding the `robot` User -->
+                <div class="writeup-section">
+                    <h2>11. Finding the `robot` User</h2>
+                    <p class="writeup-text">While exploring the filesystem, we find a user named robot inside the
+                        <code>/home</code> directory.
+                    </p>
+
+                    <p class="writeup-text">There are two interesting files:</p>
+                    <ul class="finding-list">
+                        <li><code>key-2-of-3.txt</code></li>
+                        <li><code>password.raw-md5</code></li>
+                    </ul>
+
+
+                    <img src="../assets/writeups/mr.robot/21_Found_PasswdHash.png"
+                        alt="Checking password.raw-md5 contents" class="writeup-image">
+                    <p class="writeup-text">Now we have something we can work with.</p>
+                    <p class="writeup-text">Let's crack the hash using John the Ripper. 🔐</p>
+                </div>
+
+                <!-- 12. Cracking the `robot` Password -->
+                <div class="writeup-section">
+                    <h2>12. Cracking the `robot` Password</h2>
+                    <p class="writeup-text">Before starting the cracking process, let's copy the discovered hash into a
+                        text file.</p>
+                    <p class="writeup-text">Since the password was hashed using the MD5 algorithm, John the Ripper needs
+                        to be told that we're dealing with a <code>Raw-MD5</code> hash.</p>
+                    <p class="writeup-text">The command used was:</p>
+                    <div class="code-block">john hash.txt --format=Raw-MD5 --wordlist=/usr/share/wordlists/rockyou.txt
+                    </div>
+                    <p class="writeup-text">Now let's crack the hash!</p>
+                    <img src="../assets/writeups/mr.robot/22_Cracked_Password.png"
+                        alt="MD5 password hash cracked with John the Ripper" class="writeup-image">
+                    <p class="writeup-text">Let's gooo! 🔥</p>
+                    <p class="writeup-text">John successfully cracked the hash, and we've got the password for the robot
+                        user.</p>
+                    <p class="writeup-text">Now let's try switching to that account.</p>
+                </div>
+
+                <!-- 13. Switching to the `robot` User -->
+                <div class="writeup-section">
+                    <h2>13. Switching to the `robot` User</h2>
+                    <p class="writeup-text">Let's use <code>su</code> to switch to the robot user.</p>
+                    <div class="code-block">su robot</div>
+                    <p class="writeup-text">We are prompted for the password, which we enter to authenticate
+                        successfully.</p>
+                    <img src="../assets/writeups/mr.robot/23_Switched_User.png" alt="Authenticating as robot user"
+                        class="writeup-image">
+                    <p class="writeup-text">And there we go.</p>
+                    <p class="writeup-text">We're now logged in as robot. 🎯</p>
+                    <div class="code-block">whoami</div>
+                    <p class="writeup-text">The command confirms we are operating as the robot user.</p>
+                    <p class="writeup-text">Let's make sure our shell is interactive by running the Python PTY command
+                        again:</p>
+                    <div class="code-block">python -c 'import pty;pty.spawn("/bin/bash")'</div>
+
+
+                    <p class="writeup-text">And there it is.</p>
+                    <p class="writeup-text">🔑 Key 2 acquired.</p>
+                    <p class="writeup-text">Now we have two out of the three keys.</p>
+                    <p class="writeup-text">But the final one is most probably waiting for us inside the
+                        <code>/root</code> directory.
+                    </p>
+
+                    <p class="writeup-text">That means it's time for the final stage:</p>
+                    <p class="writeup-text">Privilege escalation. 👀</p>
+                </div>
+
+                <!-- 14. Hunting for SUID Binaries -->
+                <div class="writeup-section">
+                    <h2>14. Hunting for SUID Binaries</h2>
+                    <p class="writeup-text">One of the things worth checking during Linux privilege-escalation
+                        enumeration is SUID binaries.</p>
+                    <p class="writeup-text">A SUID binary can execute with the privileges of its owner, which is
+                        particularly dangerous when a binary owned by root has an exploitable configuration or
+                        functionality.</p>
+                    <p class="writeup-text">So let's search for SUID binaries owned by root.</p>
+                    <div class="code-block">find / -user root -perm /4000 2>/dev/null</div>
+                    <img src="../assets/writeups/mr.robot/24_SUID_Check.png" alt="Listing SUID binaries on the system"
+                        class="writeup-image">
+                    <p class="writeup-text">And there it is.</p>
+                    <p class="writeup-text">One entry immediately catches our attention:</p>
+                    <p class="writeup-text"><code>/usr/local/bin/nmap</code></p>
+                    <p class="writeup-text">An Nmap binary with SUID permissions is highly unusual.</p>
+                    <p class="writeup-text">This could potentially allow us to execute commands with elevated
+                        privileges.</p>
+                    <p class="writeup-text">And just like that, we have our privilege-escalation vector. 🚀</p>
+                </div>
+
+                <!-- 15. Checking GTFOBins -->
+                <div class="writeup-section">
+                    <h2>15. Checking GTFOBins</h2>
+                    <p class="writeup-text">Rather than trying to figure out the exploitation technique from scratch,
+                        let's check GTFOBins for a known way to abuse Nmap when it has SUID privileges.</p>
+                    <img src="../assets/writeups/mr.robot/25_GTFOBINS_Check.png" alt="Abusing Nmap SUID on GTFOBins"
+                        class="writeup-image">
+                    <p class="writeup-text">There it is.</p>
+                    <p class="writeup-text">GTFOBins provides an exact technique for spawning a shell through the
+                        SUID-enabled Nmap binary.</p>
+                    <p class="writeup-text">Let's use the command provided there.</p>
+                </div>
+
+                <!-- 16. Getting Root Access -->
+                <div class="writeup-section">
+                    <h2>16. Getting Root Access</h2>
+                    <p class="writeup-text">Let's execute the GTFOBins technique.</p>
+                    <div class="code-block">nmap --interactive
+                        !/bin/sh</div>
+                    <img src="../assets/writeups/mr.robot/26_Key3.png" alt="Root shell execution and final key capture"
+                        class="writeup-image">
+                    <p class="writeup-text">And...</p>
+                    <p class="writeup-text">Yahoooo! 😂🔥</p>
+                    <p class="writeup-text">We're root!!!</p>
+                    <p class="writeup-text">The command successfully spawned a shell with root privileges.</p>
+                    <p class="writeup-text">We can confirm this by checking our user identity:</p>
+                    <div class="code-block">id</div>
+                    <p class="writeup-text">The result shows that we're operating as:</p>
+                    <p class="writeup-text"><code>uid=0(root)</code></p>
+                    <p class="writeup-text">Root access achieved. 🎯</p>
+                    <p class="writeup-text">Now that we have full privileges, we can finally access the
+                        <code>/root</code> directory and retrieve the final key.
+                    </p>
+
+                    <p class="writeup-text">🔑 Key 3 acquired.</p>
+                    <p class="writeup-text">The machine is fully rooted. 🤖💀</p>
+                </div>
+
+                <!-- 17. What I've Learnt From This Room -->
+                <div class="writeup-section">
+                    <h2>17. What I've Learnt From This Room 📝</h2>
+                    <p class="writeup-text">This room was a really interesting demonstration of how multiple small
+                        weaknesses can be chained together to compromise an entire machine.</p>
+                    <p class="writeup-text">Here are the biggest things I took away from it:</p>
+                    <ul class="finding-list">
+                        <li>Sensitive information exposed through web directories can make an attacker's job much
+                            easier. The <code>/license</code> page exposed credentials that eventually gave us
+                            administrative access to WordPress.</li>
+                        <li>Directory enumeration is extremely valuable. Paths such as <code>/license</code>,
+                            <code>/robots</code>, and <code>/wp-login</code> weren't immediately visible from the main
+                            page, but discovering them opened up several new attack paths.
+                        </li>
+                        <li>Encoded information shouldn't be ignored. The Base64-encoded content on the
+                            <code>/license</code> page initially looked like meaningless text, but decoding it revealed
+                            usable credentials.
+                        </li>
+                        <li>Web application administrator access can become system-level code execution. Because the
+                            WordPress administrator could edit PHP files, we were able to turn application-level access
+                            into a reverse shell.</li>
+                        <li>A foothold is only the beginning. Once inside the machine, we still had to enumerate the
+                            filesystem, identify other users, recover credentials, and find a path toward privilege
+                            escalation.</li>
+                        <li>Weak password hashing can expose credentials. The robot user's password was stored as an MD5
+                            hash, which could be cracked using John the Ripper.</li>
+                        <li>SUID binaries deserve careful attention during Linux enumeration. The SUID-enabled Nmap
+                            binary provided the final path from the robot user to root.</li>
+                    </ul>
+                </div>
+
+                <!-- 18. Attack Chain Summary and Conclusion -->
+                <div class="writeup-section" style="margin-bottom: 0; border-bottom: none;">
+                    <h2>18. Attack Chain Summary ⚡</h2>
+                    <p class="writeup-text">Let's quickly recap the complete attack path:</p>
+                    <p class="writeup-text"
+                        style="text-align: center; line-height: 2; font-family: var(--font-heading); color: var(--accent-secondary); margin-bottom: 3rem;">
+                        Web Enumeration<br>
+                        ↓<br>
+                        Hidden <code>/license</code> Directory<br>
+                        ↓<br>
+                        Base64-Encoded Credentials<br>
+                        ↓<br>
+                        WordPress Administrator Access<br>
+                        ↓<br>
+                        PHP File Modification<br>
+                        ↓<br>
+                        Reverse Shell<br>
+                        ↓<br>
+                        <code>robot</code> User Enumeration<br>
+                        ↓<br>
+                        MD5 Password Hash<br>
+                        ↓<br>
+                        John the Ripper<br>
+                        ↓<br>
+                        Switch to <code>robot</code><br>
+                        ↓<br>
+                        SUID Nmap Discovery<br>
+                        ↓<br>
+                        GTFOBins Technique<br>
+                        ↓<br>
+                        Root Access<br>
+                        ↓<br>
+                        Key 3 🔑
+                    </p>
+
+                    <h2>Final Thoughts</h2>
+                    <p class="writeup-text">What I really liked about this room was how naturally each discovery led to
+                        the next.</p>
+                    <p class="writeup-text">We started with nothing more than a reachable web server.</p>
+                    <p class="writeup-text">Then directory enumeration revealed hidden paths.</p>
+                    <p class="writeup-text">One of those paths exposed credentials.</p>
+                    <p class="writeup-text">Those credentials gave us WordPress administrator access.</p>
+                    <p class="writeup-text">The administrator access gave us the ability to execute PHP code and obtain
+                        a reverse shell.</p>
+                    <p class="writeup-text">From there, we found the robot user's password hash, cracked it, and
+                        switched users.</p>
+                    <p class="writeup-text">Finally, a misconfigured SUID Nmap binary gave us the privilege escalation
+                        path we needed to become root.</p>
+                    <p class="writeup-text">One discovery kept unlocking the next stage of the attack. 🔓</p>
+                    <p class="writeup-text">And that's probably the biggest lesson I took away from this room: don't
+                        ignore small findings just because they don't immediately give you access. A username, an
+                        encoded string, a wordlist, or an unusual file permission might not seem important on its own,
+                        but when combined with other findings, it can become the missing piece of the entire attack
+                        chain.</p>
+                    <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 2rem 0;">
+                    <p class="writeup-text">And with that...</p>
+                    <p class="writeup-text" style="margin-bottom: 0;">Mr. Robot has been rooted. 🤖🔥</p>
+                </div>
+
+            </div>
+
+            <a href="../writeups.html" class="btn" style="margin-bottom: 2rem;"><span>&larr; Back to Writeups</span></a>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+
+</html>
