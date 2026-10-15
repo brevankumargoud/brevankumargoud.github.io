@@ -7,6 +7,7 @@ class PortfolioComponents {
         this.renderNavbar(pBasePath);
         this.renderFooter(pBasePath);
         this.setActiveLink();
+        this.initMobileMenu();
     }
 
     static renderNavbar(pBasePath) {
@@ -20,15 +21,40 @@ class PortfolioComponents {
                     <li><a href="${pBasePath}about.html" data-path="about.html">About</a></li>
                     <li><a href="${pBasePath}contact.html" data-path="contact.html">Contact</a></li>
                 </ul>
-                <div class="mobile-menu-btn" style="display:none;">
+                <button class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false">
                     <span></span><span></span><span></span>
-                </div>
+                </button>
             </nav>
         `;
         
         const placeholder = document.getElementById('navbar-placeholder');
         if (placeholder) {
             placeholder.innerHTML = navbarHTML;
+        }
+    }
+
+    static initMobileMenu() {
+        const placeholder = document.getElementById('navbar-placeholder');
+        if (!placeholder) return;
+        
+        const menuBtn = placeholder.querySelector('.mobile-menu-btn');
+        const navLinks = placeholder.querySelector('.nav-links');
+        
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', () => {
+                const isExpanded = navLinks.classList.toggle('active');
+                menuBtn.classList.toggle('active');
+                menuBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+            });
+
+            // Close mobile menu when a nav link is clicked
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    menuBtn.classList.remove('active');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
         }
     }
 

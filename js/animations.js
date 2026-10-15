@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -100px 0px', // Trigger slightly before the item comes fully into view
+        rootMargin: '0px 0px -30px 0px', // Trigger smoothly as item enters the viewport
         threshold: 0.1 // 10% of element must be visible
     };
 

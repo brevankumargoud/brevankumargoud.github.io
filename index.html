@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Revan Kumar Goud Bommagoni - Cybersecurity Portfolio. Learning Offense to Build Stronger Defense.">
-    <title>Revan Kumar | Cybersecurity Portfolio</title>
+    <meta name="description" content="Revan Kumar Goud Bommagoni - Cybersecurity Portfolio. Technical Lead at AWS Student Builder Group RGUKT Ongole, Aspiring Red Teamer, AI + Cyber Automation, and Security-Minded Builder.">
+    <title>Revan Kumar | Cybersecurity Portfolio & Red Teaming</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,91 +18,445 @@
 
     <main>
         <!-- HERO SECTION -->
-        <section class="hero-section container" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
+        <section class="hero-section container" style="padding: 3rem 0 3.5rem 0;">
             <div class="animate-on-scroll">
                 <p class="terminal-text" style="font-size: 1.1rem; margin-bottom: 1rem;">> whoami</p>
-                <h1 style="font-size: 4rem; line-height: 1.1; margin-bottom: 1rem;">Revan Kumar<br>Goud Bommagoni</h1>
-                <h2 style="font-size: 1.5rem; color: var(--accent-primary); font-family: var(--font-body); font-weight: 300; margin-bottom: 2rem;">Learning Offense to Build Stronger Defense</h2>
+                <h1 style="font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.15; margin-bottom: 1rem;">Revan Kumar<br>Goud Bommagoni</h1>
+                <h2 style="font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--accent-primary); font-family: var(--font-body); font-weight: 400; margin-bottom: 1.5rem;">Learning Offense to Build Stronger Defense</h2>
                 
+                <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 780px; line-height: 1.75; margin-bottom: 2rem;">
+                    Undergraduate studying B.Tech in Artificial Intelligence & Machine Learning at RGUKT Ongole, and aspiring Red Teamer. Combining hands-on offensive security, vulnerability research, and practical exploitation with AI-driven cyber automation. Serving as Technical Lead at AWS Student Builder Group - RGUKT Ongole to build resilient defenses through practical engineering and community leadership.
+                </p>
+
                 <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                     <a href="./projects.html" class="btn btn-primary"><span>View Projects</span></a>
+                    <a href="./writeups.html" class="btn"><span>Security Write-ups</span></a>
                     <a href="https://github.com/brevankumargoud" target="_blank" class="btn"><span>GitHub</span></a>
                 </div>
             </div>
         </section>
 
         <!-- QUICK OVERVIEW -->
-        <section class="overview-section container" style="padding: 4rem 0;">
-            <h2 class="section-title animate-on-scroll">Quick Overview</h2>
+        <section class="overview-section container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> cat overview.sys</p>
+                <h2 class="section-title">Quick Overview</h2>
+            </div>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1.5rem;">
                 
                 <div class="card animate-on-scroll" style="transition-delay: 0.1s;">
-                    <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Skills</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">C, Python, Web Security, OSINT, Metasploit, Nmap, Docker...</p>
-                    <a href="./about.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore &rarr;</span></a>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h3 style="color: var(--accent-primary); font-size: 1.25rem;">Offensive Focus</h3>
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">Core</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        Hands-on penetration testing training, web exploitation (SQLi, XSS), lab-based CVE reproduction, and privilege escalation. Understanding how attackers breach systems to construct tighter defenses.
+                    </p>
+                    <a href="./about.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore Focus &rarr;</span></a>
                 </div>
 
                 <div class="card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Projects</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Graama Suraksha AI, AI Newsletter Automation, and more.</p>
-                    <a href="./projects.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore &rarr;</span></a>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h3 style="color: var(--accent-primary); font-size: 1.25rem;">AI + Cyber Automation</h3>
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Building</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        Engineering real-world threat detection tools, approval-based content workflows, and automated intelligence pipelines using n8n, Gemini AI, Groq, Docker, and REST APIs.
+                    </p>
+                    <a href="./projects.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore Projects &rarr;</span></a>
                 </div>
 
                 <div class="card animate-on-scroll" style="transition-delay: 0.3s;">
-                    <h3 style="margin-bottom: 1rem; color: var(--accent-primary);">Latest Writeup</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Mr. Robot – Full Walkthrough: Chaining hidden directory enumeration, Base64 decoding, WordPress reverse shell upload, cracking MD5 hash, and SUID Nmap privilege escalation.</p>
-                    <a href="./writeups.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore &rarr;</span></a>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h3 style="color: var(--accent-primary); font-size: 1.25rem;">Labs & Research</h3>
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Labs & CVEs</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        Documenting end-to-end vulnerability reproduction, TryHackMe challenges (100-day streak milestone), Null Origin CTF problem solving, and structured CVE analysis with transparent methodology.
+                    </p>
+                    <a href="./writeups.html" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><span>Explore Write-ups &rarr;</span></a>
                 </div>
                 
+            </div>
+        </section>
+
+        <!-- EXPERIENCE & TECHNICAL LEADERSHIP -->
+        <section class="experience-section container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> cat experience_and_leadership.log</p>
+                <h2 class="section-title">Experience & Technical Leadership</h2>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <!-- AWS SBG Entry -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <div>
+                            <h3 style="color: var(--text-main); font-size: 1.35rem; margin-bottom: 0.25rem;">Technical Lead</h3>
+                            <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.95rem;">AWS Student Builder Group &bull; RGUKT Ongole <span style="color: var(--text-muted); font-size: 0.85rem;">(July 2026 – Present)</span></p>
+                        </div>
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Leadership &bull; Present</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">
+                        Directing technical initiatives, peer workshops, and cloud exploration across campus. Took end-to-end technical ownership as sole developer, tester, and deployer of the newly launched <strong>AWS SBG Learning Management System (LMS)</strong>. Served as evaluator and technical mentor at the <strong>Nimbus Buildathon</strong>, assisting participants with technical roadblocks. Demonstrated practical cloud infrastructure and NGINX deployments on Amazon EC2, earning the <strong>AWS SBG Core Team Member Badge</strong>.
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="badge">AWS SBG LMS Architecture</span>
+                        <span class="badge">Technical Mentorship</span>
+                        <span class="badge">Nimbus Buildathon Evaluator</span>
+                        <span class="badge">Amazon EC2 &bull; NGINX</span>
+                        <span class="badge">Core Team Member Badge</span>
+                    </div>
+                </div>
+
+                <!-- HackersDaddy Entry -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <div>
+                            <h3 style="color: var(--text-main); font-size: 1.35rem; margin-bottom: 0.25rem;">Penetration Tester Intern</h3>
+                            <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.95rem;">HackersDaddy <span style="color: var(--text-muted); font-size: 0.85rem;">(May 2026 – August 2026 &bull; Remote)</span></p>
+                        </div>
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">Internship &bull; Lab Exploitation</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">
+                        Completed comprehensive hands-on training in penetration testing, vulnerability assessment, and reconnaissance workflows. Conducted authorized lab-based vulnerability reproduction and exploitation across targets including Webmin 1.920 unauthenticated RCE (CVE-2019-15107), SMBv1 EternalBlue (MS17-010), and KingsMan Joomla CMS. Practiced structured security reporting and earned the <strong>Junior Web App Penetration Tester</strong> credential (ID: <code>VULN-2026-00051</code>).
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="badge">Penetration Testing Training</span>
+                        <span class="badge">Web & API Security</span>
+                        <span class="badge">CVE Reproduction</span>
+                        <span class="badge">Privilege Escalation</span>
+                        <span class="badge">Junior Web App Pen Tester (VULN-2026-00051)</span>
+                    </div>
+                </div>
+
+                <!-- HackWithIndia Entry -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <div>
+                            <h3 style="color: var(--text-main); font-size: 1.35rem; margin-bottom: 0.25rem;">College Ambassador</h3>
+                            <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.95rem;">HackWithIndia <span style="color: var(--text-muted); font-size: 0.85rem;">(January 2026 &bull; Remote)</span></p>
+                        </div>
+                        <span class="badge">Community Outreach</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">
+                        Represented HackWithIndia at the campus level, driving student awareness and engagement for its live hacking events through online and offline outreach. Coordinated registrations, engaged cybersecurity enthusiasts, and supported peer participation in national technical initiatives.
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="badge">College Ambassador</span>
+                        <span class="badge">Live Hacking Promotion</span>
+                        <span class="badge">Student Community</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TECHNICAL SKILLS & ARSENAL -->
+        <section class="skills-section container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> ./list_arsenal.sh</p>
+                <h2 class="section-title">Technical Skills & Arsenal</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.5rem;">
+                
+                <!-- Group 1: Offensive Security -->
+                <div class="card animate-on-scroll">
+                    <h3 style="color: var(--accent-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">Offensive Security</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Web Application Security (SQLi, XSS), Reconnaissance & OSINT, Network Enumeration, Lab Exploit Reproduction, and Linux/Windows Privilege Escalation.
+                    </p>
+                    <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span class="badge">Burp Suite</span>
+                        <span class="badge">Nmap</span>
+                        <span class="badge">Metasploit</span>
+                        <span class="badge">Gobuster</span>
+                        <span class="badge">SQLMap</span>
+                        <span class="badge">Wireshark</span>
+                    </div>
+                </div>
+
+                <!-- Group 2: Programming & Scripting -->
+                <div class="card animate-on-scroll">
+                    <h3 style="color: var(--accent-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">Programming & Scripting</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Core languages utilized for security tooling, protocol understanding, automated scripts, and application development.
+                    </p>
+                    <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span class="badge">Python</span>
+                        <span class="badge">C</span>
+                        <span class="badge">Java</span>
+                        <span class="badge">Bash / Shell</span>
+                        <span class="badge">HTML / Web</span>
+                    </div>
+                </div>
+
+                <!-- Group 3: AI & Cyber Automation -->
+                <div class="card animate-on-scroll">
+                    <h3 style="color: var(--accent-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">AI & Cyber Automation</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Designing automated threat analysis pipelines, content synthesis, approval workflows, and event-driven automation with AI APIs.
+                    </p>
+                    <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span class="badge">n8n</span>
+                        <span class="badge">Gemini AI</span>
+                        <span class="badge">Groq AI</span>
+                        <span class="badge">Docker</span>
+                        <span class="badge">REST APIs</span>
+                        <span class="badge">Sheets & Drive APIs</span>
+                    </div>
+                </div>
+
+                <!-- Group 4: Cloud, Systems & Environments -->
+                <div class="card animate-on-scroll">
+                    <h3 style="color: var(--accent-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">Cloud & Systems</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Cloud infrastructure exposure, operating platforms, containerized environments, and collaborative version control.
+                    </p>
+                    <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                        <span class="badge">AWS Fundamentals</span>
+                        <span class="badge">Amazon EC2</span>
+                        <span class="badge">NGINX</span>
+                        <span class="badge">Kali Linux</span>
+                        <span class="badge">Ubuntu</span>
+                        <span class="badge">Windows</span>
+                        <span class="badge">Git / GitHub</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="animate-on-scroll" style="margin-top: 1.5rem; text-align: right;">
+                <a href="./about.html" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;"><span>View Detailed Arsenal &rarr;</span></a>
             </div>
         </section>
 
         <!-- FEATURED PROJECTS -->
-        <section class="featured-projects container" style="padding: 4rem 0;">
-            <h2 class="section-title animate-on-scroll">Featured Projects</h2>
+        <section class="featured-projects container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> ls -la ./featured_projects</p>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 3rem;">
-                <!-- Project 1 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.5rem;">
+                
+                <!-- Project 1: AWS SBG Learning Management System -->
                 <div class="card animate-on-scroll">
-                    <h3 style="margin-bottom: 0.5rem;">Graama Suraksha AI</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary); white-space: nowrap;">Community &amp; Institutional</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">Launched &bull; Oct 2026</span>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.35rem; color: var(--text-main);">AWS SBG Learning Management System (LMS)</h3>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <span class="badge">Next.js</span>
+                        <span class="badge">TypeScript</span>
+                        <span class="badge">PostgreSQL</span>
+                        <span class="badge">Prisma</span>
+                        <span class="badge">Auth.js</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        A learning platform built for the AWS Student Builder Group at RGUKT Ongole, bringing course content, video-based learning, and student progress tracking into one centralized experience.
+                    </p>
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                        <a href="./projects/aws-sbg-lms.html" class="btn"><span>View Case Study</span></a>
+                        <a href="https://lms.awssbgrguktong.online" target="_blank" rel="noopener noreferrer" class="btn" style="border-color: var(--accent-secondary); color: var(--accent-secondary); font-size: 0.85rem; padding: 0.7rem 1.1rem;"><span>Live LMS &nearr;</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Graama Suraksha AI -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary); white-space: nowrap;">Hackathon Project</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">AI Security</span>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">Graama Suraksha AI</h3>
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
                         <span class="badge">AI Security</span>
                         <span class="badge">OSINT</span>
                         <span class="badge">n8n</span>
-                        <span class="badge">Gemini</span>
+                        <span class="badge">Groq AI</span>
+                        <span class="badge">WhatsApp API</span>
                     </div>
-                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">WhatsApp-based scam detection and community alert system with multi-language and audio support.</p>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        WhatsApp-based scam detection and community alert platform with multi-language and audio payload analysis to protect non-technical users from fraudulent messages and malicious links.
+                    </p>
                     <a href="./projects/graama-suraksha.html" class="btn"><span>View Details</span></a>
                 </div>
 
-                <!-- Project 2 -->
+                <!-- Project 3: AI Newsletter Automation -->
                 <div class="card animate-on-scroll">
-                    <h3 style="margin-bottom: 0.5rem;">AI Newsletter Automation</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary); white-space: nowrap;">Personal Project</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">Threat Intel</span>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">AI Cyber News & Events Automation</h3>
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
                         <span class="badge">Automation</span>
                         <span class="badge">RSS</span>
-                        <span class="badge">Gemini</span>
+                        <span class="badge">Gemini AI</span>
+                        <span class="badge">SerpAPI</span>
+                        <span class="badge">n8n</span>
                     </div>
-                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Fetches cyber news from RSS feeds, summarizes using AI, and sends daily reports.</p>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        Automated threat intelligence aggregation pipeline that curates cybersecurity news and event advisories via RSS feeds and SerpAPI, summarizes with Google Gemini, and delivers structured daily email digests.
+                    </p>
                     <a href="./projects/ai-newsletter.html" class="btn"><span>View Details</span></a>
                 </div>
+
+                <!-- Project 4: LinkedIn Post Generator -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary); white-space: nowrap;">Personal Project</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">Automation</span>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">AI-Driven LinkedIn Content Automation</h3>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <span class="badge">Automation</span>
+                        <span class="badge">Docker</span>
+                        <span class="badge">Google Drive API</span>
+                        <span class="badge">Gemini AI</span>
+                        <span class="badge">n8n</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                        Human-in-the-loop social media automation pipeline that pulls seed topics from Google Sheets, generates drafts with Gemini AI, awaits user approval, retrieves assets from Google Drive, and publishes via LinkedIn API.
+                    </p>
+                    <a href="./projects/linkedin-post-generator.html" class="btn"><span>View Details</span></a>
+                </div>
+
+            </div>
+
+            <div class="animate-on-scroll" style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="color: var(--text-muted); font-size: 0.95rem; font-family: monospace;">
+                    > Full case studies, hackathon prototypes &amp; security write-ups available.
+                </p>
+                <a href="./projects.html" class="btn"><span>Explore All Projects &rarr;</span></a>
+            </div>
+        </section>
+
+        <!-- CREDENTIALS & MILESTONES -->
+        <section class="achievements-section container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> cat credentials_and_milestones.txt</p>
+                <h2 class="section-title">Credentials & Milestones</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem;">
+                
+                <!-- Credential 1: HackersDaddy -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">Credential</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-muted);">July 2026</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem; color: var(--text-main);">Junior Web App Penetration Tester</h3>
+                    <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.85rem; margin-bottom: 0.5rem;">HackersDaddy &bull; ID: VULN-2026-00051</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Validates practical methodology in web application penetration testing, vulnerability discovery, reconnaissance, and structured security reporting.
+                    </p>
+                </div>
+
+                <!-- Credential 2: Cisco Networking Academy -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Certification</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-muted);">Aug 2025</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem; color: var(--text-main);">Introduction to Cybersecurity</h3>
+                    <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.85rem; margin-bottom: 0.5rem;">Cisco Networking Academy</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Foundational credential covering core network security concepts, common threat vectors, defense mechanisms, and data confidentiality principles.
+                    </p>
+                </div>
+
+                <!-- Milestone: Smart India Hackathon -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Hackathons</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-muted);">2x Team Lead</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem; color: var(--text-main);">Smart India Hackathon (SIH)</h3>
+                    <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.85rem; margin-bottom: 0.5rem;">Internal Round Selections (2025 &bull; 2026)</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Served as Team Lead across both editions. Led internal round selection in SIH 2026 on Problem Statement #26117 (Sovereign On-Premise Agentic AI Workbench using Open-Weight Multimodal LLMs).
+                    </p>
+                </div>
+
+                <!-- Milestone: Null Origin CTF & 100-Day Streak -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">CTF</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-muted);">Milestone</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem; color: var(--text-main);">Null Origin CTF</h3>
+                    <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.85rem; margin-bottom: 0.5rem;">Team Cold Cache (Rank 529th)</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        Solved 5 challenges during Null Origin CTF with team Cold Cache.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RECENT SECURITY WRITE-UPS -->
+        <section class="writeups-section container" style="padding: 2.5rem 0;">
+            <div class="animate-on-scroll" style="margin-bottom: 2rem;">
+                <p class="terminal-text" style="font-size: 0.95rem; margin-bottom: 0.5rem;">> tail -n 2 writeup_logs.txt</p>
+                <h2 class="section-title">Recent Security Write-ups</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.5rem;">
+                
+                <!-- Writeup 1 -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted);">Web &bull; PrivEsc</span>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Mr. Robot – Full Walkthrough</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Chaining hidden directory enumeration, Base64 decoding, WordPress reverse shell upload, MD5 hash cracking, and SUID Nmap privilege escalation to root.
+                    </p>
+                    <a href="./writeups/mr_robot.html" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;"><span>Read Full &rarr;</span></a>
+                </div>
+
+                <!-- Writeup 2 -->
+                <div class="card animate-on-scroll">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                        <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">HackersDaddy</span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted);">CVE-2019-15107</span>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Webmin 1.920 – Remote Code Execution</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+                        Exploiting an unauthenticated password reset parameter backdoor in Webmin 1.920 to achieve remote code execution and root privilege compromise.
+                    </p>
+                    <a href="./writeups/webmin.html" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;"><span>Read Full &rarr;</span></a>
+                </div>
+
+            </div>
+
+            <div class="animate-on-scroll" style="margin-top: 1.5rem; text-align: right;">
+                <a href="./writeups.html" class="btn"><span>View All 6 Write-ups &rarr;</span></a>
             </div>
         </section>
 
         <!-- MINDSET STRIP -->
-        <section class="mindset-strip animate-on-scroll" style="background: rgba(255, 42, 42, 0.05); border-top: 1px solid rgba(255, 42, 42, 0.2); border-bottom: 1px solid rgba(255, 42, 42, 0.2); padding: 4rem 2rem; text-align: center; margin: 4rem 0;">
+        <section class="mindset-strip animate-on-scroll" style="background: rgba(255, 42, 42, 0.05); border-top: 1px solid rgba(255, 42, 42, 0.2); border-bottom: 1px solid rgba(255, 42, 42, 0.2); padding: 3.5rem 2rem; text-align: center; margin: 3rem 0;">
             <div class="container">
-                <p style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 500; font-style: italic; max-width: 800px; margin: 0 auto; color: var(--text-main);">
+                <p style="font-family: var(--font-heading); font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 500; font-style: italic; max-width: 800px; margin: 0 auto; color: var(--text-main);">
                     "I don’t hack to cause damage. I hack to prove what’s possible — and to ensure it gets fixed."
                 </p>
             </div>
         </section>
 
         <!-- CALL TO ACTION -->
-        <section class="cta-section container animate-on-scroll" style="padding: 4rem 0; text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to collaborate?</h2>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto;">I'm open for collaboration, internships, and learning opportunities. Let's build stronger defenses together.</p>
+        <section class="cta-section container animate-on-scroll" style="padding: 2.5rem 0 4rem 0; text-align: center;">
+            <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem;">Ready to collaborate?</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto; line-height: 1.7;">
+                I am open to internship opportunities, collaborative security research, and technical challenges. Let's build stronger defenses together.
+            </p>
             <a href="./contact.html" class="btn btn-primary"><span>Get In Touch</span></a>
         </section>
     </main>

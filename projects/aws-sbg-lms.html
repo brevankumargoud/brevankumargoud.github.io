@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS SBG Learning Management System (LMS) | Revan Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3.5rem;
+            margin-bottom: 4rem;
+        }
+        @media (max-width: 900px) {
+            .case-study-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+        .arch-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+        .arch-node {
+            background: #111111;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.25rem;
+            position: relative;
+            transition: all var(--transition-fast);
+        }
+        .arch-node:hover {
+            border-color: var(--accent-secondary);
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.08);
+        }
+        .arch-node .node-tier {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .arch-node h4 {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+        .arch-node p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .feature-card {
+            background: #141414;
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 1.25rem;
+            transition: all var(--transition-fast);
+        }
+        .feature-card:hover {
+            border-color: rgba(255, 42, 42, 0.4);
+            transform: translateY(-2px);
+        }
+        .feature-card h4 {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .tech-pill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .tech-pill-card {
+            background: #111111;
+            border: 1px solid var(--card-border);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .tech-pill-card .tech-category {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+        .tech-pill-card .tech-name {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+        .sidebar-sticky {
+            position: sticky;
+            top: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container">
+        <section class="animate-on-scroll" style="padding: 3rem 0;">
+            <a href="../projects.html" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem;">&larr; Back to Projects</a>
+            
+            <p class="terminal-text" style="margin-bottom: 0.5rem;">> cat portfolio/aws-sbg-lms.md</p>
+            <h1 class="section-title" style="margin-bottom: 1.25rem;">AWS SBG Learning Management System (LMS)</h1>
+            
+            <!-- Metadata Chips -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
+                <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Community & Institutional Project</span>
+                <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">Publicly Launched &bull; Oct 9, 2026</span>
+                <span class="badge">Next.js</span>
+                <span class="badge">TypeScript</span>
+                <span class="badge">PostgreSQL</span>
+                <span class="badge">Prisma ORM</span>
+                <span class="badge">Supabase</span>
+                <span class="badge">Auth.js (NextAuth)</span>
+                <span class="badge">Argon2id</span>
+                <span class="badge">Vercel</span>
+            </div>
+
+            <!-- Main Layout Grid -->
+            <div class="case-study-grid">
+                
+                <!-- Main Content Column -->
+                <div>
+                    
+                    <!-- 1. Project Overview & Context -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">1. Project Overview & Context</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
+                            The <strong>AWS Student Builder Group (AWS SBG) Learning Management System (LMS)</strong> is a centralized educational platform engineered to support student learning across campus at <strong>RGUKT Ongole</strong>. The platform was officially launched to the student body on <strong>October 9, 2026</strong> alongside the organization's official web presence.
+                        </p>
+                        <p style="color: var(--text-muted); line-height: 1.8;">
+                            Prior to this initiative, student technical learning relied on fragmented communication channels, disconnected tutorial links, and informal note sharing. The LMS unifies the campus technical curriculum into an organized, accessible, and structured portal where students can explore courses, follow modular lessons, watch lecture videos, and track their educational journey in a single dedicated environment.
+                        </p>
+                    </div>
+
+                    <!-- 2. Problem & Learning Objectives -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">2. Problem & Objectives</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
+                            Developing an institutional learning system for an active campus student community presented distinct challenges:
+                        </p>
+                        <ul style="list-style: none; color: var(--text-muted); line-height: 1.8;">
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong style="color: var(--text-main);">> Curriculum Fragmentation:</strong> Learning materials were scattered across varied external drives, spreadsheets, and chat groups without clear learning roadmaps.
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong style="color: var(--text-main);">> Lack of Structured Progress Visibility:</strong> Students lacked a personalized dashboard to track completed lessons and monitor their course progress.
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                <strong style="color: var(--text-main);">> Secure Access & Onboarding:</strong> The platform required credential-based access to safeguard campus learning resources while maintaining a smooth onboarding experience for enrolled student cohorts.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Key Implemented Features -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1.25rem; font-size: 1.4rem;">3. Implemented Platform Features</h3>
+                        
+                        <div class="feature-card">
+                            <h4><span style="color: var(--accent-secondary); font-family: monospace;">[01]</span> Student Authentication & Dashboard</h4>
+                            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                                Credentials-based authentication system safeguarding student sessions. Upon login, students access a clean, distraction-free dashboard showing registered courses, learning pathways, and module progress.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><span style="color: var(--accent-secondary); font-family: monospace;">[02]</span> Structured Course & Lesson Hierarchy</h4>
+                            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                                Educational content is organized through a relational model: <em style="color: var(--text-main);">Course &rarr; Modules &rarr; Lessons</em>. Each lesson presents clear learning objectives, technical walkthroughs, and supporting documentation.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><span style="color: var(--accent-secondary); font-family: monospace;">[03]</span> Curated YouTube-Based Video Learning</h4>
+                            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                                Built-in video delivery supporting validated YouTube lesson embeddings. Ingests normalized video identifiers and renders them via responsive, privacy-conscious players embedded directly within the lesson interface.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><span style="color: var(--accent-secondary); font-family: monospace;">[04]</span> Persisted Learning Progress</h4>
+                            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                                Student lesson completions and module milestones are persisted directly to PostgreSQL via Prisma ORM, enabling students to resume their learning uninterrupted across sessions and devices.
+                            </p>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><span style="color: var(--accent-secondary); font-family: monospace;">[05]</span> High-Level Cohort Onboarding</h4>
+                            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                                An organized onboarding workflow enabling students to register interest through an application process, followed by administrative cohort verification and credential delivery for secure access.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 4. High-Level Technical Architecture -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">4. Technical Architecture</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
+                            The LMS is architected as a modern, type-safe full-stack web application with distinct separation of presentation, server-side business logic, authentication, and relational persistence:
+                        </p>
+
+                        <!-- Lightweight Architecture Flow Diagram -->
+                        <div class="arch-diagram">
+                            <div class="arch-node">
+                                <div class="node-tier">Tier 1: Presentation</div>
+                                <h4>Next.js & TypeScript</h4>
+                                <p>Server-rendered layouts & interactive client components. Fully responsive across desktop and mobile.</p>
+                            </div>
+                            <div class="arch-node">
+                                <div class="node-tier">Tier 2: Auth Layer</div>
+                                <h4>Auth.js / NextAuth</h4>
+                                <p>Credentials provider with Argon2id cryptographic hashing & session-based route protection.</p>
+                            </div>
+                            <div class="arch-node">
+                                <div class="node-tier">Tier 3: Data Access</div>
+                                <h4>Prisma ORM</h4>
+                                <p>Type-safe schema definitions, database migrations, and structured relationship querying.</p>
+                            </div>
+                            <div class="arch-node">
+                                <div class="node-tier">Tier 4: Persistence</div>
+                                <h4>PostgreSQL (Supabase)</h4>
+                                <p>Managed relational storage persisting user records, courses, modules, lessons, and progress data.</p>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 1.25rem; background: rgba(0, 255, 255, 0.03); border-color: rgba(0, 255, 255, 0.2);">
+                            <p class="terminal-text" style="font-size: 0.85rem; margin-bottom: 0.5rem;">> Request Lifecycle Flow</p>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                Student Request &rarr; Vercel Edge &rarr; Next.js Server / Route Middleware (Auth.js session verification) &rarr; Server Action / API Handler &rarr; Prisma ORM &rarr; PostgreSQL (Supabase) &rarr; Rendered UI + Embed Video Player.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 5. Technology Stack Breakdown -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">5. Technology Stack</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
+                            Selected technologies supporting stability, developer velocity, and maintainability:
+                        </p>
+
+                        <div class="tech-pill-grid">
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Application Framework</div>
+                                <div class="tech-name">Next.js</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Language & Typings</div>
+                                <div class="tech-name">TypeScript</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Relational Database</div>
+                                <div class="tech-name">PostgreSQL</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Database ORM</div>
+                                <div class="tech-name">Prisma ORM</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Database Infrastructure</div>
+                                <div class="tech-name">Supabase</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Authentication Engine</div>
+                                <div class="tech-name">Auth.js (v5 beta)</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Password Security</div>
+                                <div class="tech-name">Argon2id Hashing</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Deployment & Hosting</div>
+                                <div class="tech-name">Vercel</div>
+                            </div>
+                            <div class="tech-pill-card">
+                                <div class="tech-category">Source Control</div>
+                                <div class="tech-name">GitHub</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Security & Engineering Considerations -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">6. Security & Engineering Considerations</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.25rem;">
+                            From a software engineering and cybersecurity perspective, key defensive choices were incorporated into the architecture:
+                        </p>
+                        
+                        <ul style="list-style: none; color: var(--text-muted); line-height: 1.8;">
+                            <li style="margin-bottom: 1rem;">
+                                <strong style="color: var(--accent-secondary);">> Robust Password Hashing (Argon2id):</strong> Passwords are protected using Argon2id, the state-of-the-art memory-hard hashing algorithm resistant to GPU-accelerated and ASIC brute-force attacks.
+                            </li>
+                            <li style="margin-bottom: 1rem;">
+                                <strong style="color: var(--accent-secondary);">> Authentication & Route Boundary Protection:</strong> Protected dashboard and course routes require valid server-verified session tokens. Requests without active authentication are denied at the middleware boundary.
+                            </li>
+                            <li style="margin-bottom: 1rem;">
+                                <strong style="color: var(--accent-secondary);">> Type-Safe Data Layer:</strong> Utilizing Prisma ORM with strict TypeScript definitions avoids raw string concatenation, effectively neutralizing SQL injection risks and maintaining data contract consistency.
+                            </li>
+                            <li style="margin-bottom: 1rem;">
+                                <strong style="color: var(--accent-secondary);">> Input Normalization & Video Sanitization:</strong> Course video links undergo server-side validation to ensure only authorized video identifiers are embedded, mitigating cross-site scripting (XSS) concerns in video rendering.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 7. Development, Validation & Quality -->
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">7. Development, Validation &amp; Delivery</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">
+                            As the sole developer, tester, and deployer of the application, I maintained end-to-end ownership of the engineering workflow:
+                        </p>
+                        <ul style="list-style: none; color: var(--text-muted); line-height: 1.8;">
+                            <li style="margin-bottom: 0.75rem;">
+                                > <strong>Structured Git Workflow:</strong> Managed in a private GitHub repository utilizing isolated feature branches, clean commit milestones, and release configurations.
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                > <strong>Build &amp; Type Verification:</strong> Strict TypeScript compilation and Next.js production build checks on every deploy milestone.
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                > <strong>Development Test Suite:</strong> Automated development-stage integration and security validation suites (recording 9/9 passing tests during development validation).
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                > <strong>UI Verification:</strong> Playwright-assisted automated browser testing verifying essential student interaction flows.
+                            </li>
+                            <li style="margin-bottom: 0.75rem;">
+                                > <strong>Production Deployment:</strong> Configured edge hosting on Vercel, DNS routing for <code>lms.awssbgrguktong.online</code>, and environment variable security.
+                            </li>
+                        </ul>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; font-style: italic;">
+                            *Note: Testing metrics refer to historical internal development test suites run prior to launch, not an external third-party penetration audit.
+                        </p>
+                    </div>
+
+                    <!-- 8. Outcome & Reflection -->
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.4rem;">8. Outcome &amp; Community Impact</h3>
+                        <p style="color: var(--text-muted); line-height: 1.8;">
+                            The AWS SBG Learning Management System went live on <strong>October 9, 2026</strong>. Delivering the platform established a lasting institutional foundation for the AWS Student Builder Group community at RGUKT Ongole. Taking complete technical ownership of the application—from architectural modeling and implementation through testing and production deployment—demonstrated how modern full-stack engineering and security-conscious practices can solve tangible campus educational needs.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Sidebar Metadata Column -->
+                <div>
+                    <div class="sidebar-sticky">
+                        
+                        <!-- Role & Leadership Card -->
+                        <div class="card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.1rem;">My Role &amp; Technical Ownership</h4>
+                            <p style="color: var(--accent-secondary); font-family: monospace; font-size: 0.88rem; margin-bottom: 0.75rem; letter-spacing: 0.5px;">Technical Lead | Sole LMS Developer</p>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem;">
+                                As Technical Lead of the AWS Student Builder Group at RGUKT Ongole, I took end-to-end technical responsibility for the LMS web application's implementation, testing, and deployment, delivering it within the wider AWS SBG community initiative.
+                            </p>
+                            <div style="border-top: 1px solid var(--card-border); padding-top: 0.75rem;">
+                                <p style="font-family: monospace; font-size: 0.75rem; color: var(--accent-secondary); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px;">LMS Engineering Ownership:</p>
+                                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted); line-height: 1.7;">
+                                    <li>&bull; Application architecture &amp; technical implementation</li>
+                                    <li>&bull; Frontend &amp; backend integration (Next.js &amp; TypeScript)</li>
+                                    <li>&bull; Relational data modeling &amp; Prisma ORM schema</li>
+                                    <li>&bull; Authentication, session protection &amp; Argon2id hashing</li>
+                                    <li>&bull; Feature development, UI responsiveness &amp; debugging</li>
+                                    <li>&bull; Automated integration testing &amp; build verification</li>
+                                    <li>&bull; Production deployment &amp; configuration on Vercel</li>
+                                </ul>
+                            </div>
+                            <div style="border-top: 1px solid var(--card-border); padding-top: 0.75rem; margin-top: 0.75rem;">
+                                <p style="font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.35rem;">Community Leadership Context:</p>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+                                    Guided technical planning and aligned educational requirements to serve the RGUKT Ongole student developer community.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Organization Card -->
+                        <div class="card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.1rem;">Organization</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                <strong>AWS Student Builder Group</strong><br>
+                                Rajiv Gandhi University of Knowledge Technologies (RGUKT), Ongole
+                            </p>
+                        </div>
+
+                        <!-- Production Links Card -->
+                        <div class="card" style="padding: 1.5rem; background: rgba(255, 42, 42, 0.04); border-color: var(--accent-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.1rem;">Live Platform Links</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <a href="https://lms.awssbgrguktong.online" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; justify-content: center; text-align: center;">
+                                    <span>Launch LMS Platform</span>
+                                </a>
+                                <a href="https://awssbgrguktong.online" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; justify-content: center; text-align: center; border-color: var(--accent-secondary); color: var(--accent-secondary);">
+                                    <span>AWS SBG Official Portal</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Back Navigation -->
+                        <div style="text-align: center;">
+                            <a href="../projects.html" class="btn" style="width: 100%; justify-content: center;">
+                                <span>&larr; Return to Projects</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>const basePath = "../";</script>
+    <script src="../js/components.js"></script>
+    <script src="../js/cursor.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>

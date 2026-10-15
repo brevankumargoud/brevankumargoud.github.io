@@ -19,8 +19,10 @@
             
             <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
                 <span class="badge">n8n</span>
+                <span class="badge">Docker</span>
                 <span class="badge">LinkedIn API</span>
-                <span class="badge">Google Drive</span>
+                <span class="badge">Google Drive API</span>
+                <span class="badge">Google Sheets</span>
                 <span class="badge">Gemini AI</span>
             </div>
 
@@ -30,15 +32,15 @@
                 <div>
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Overview</h3>
                     <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">
-                        A highly customized automation pipeline designed to maintain professional social media presence with minimal friction. It pulls seed ideas from Google Sheets, expands upon them thoughtfully via AI, allows for manual refinement if necessary, and securely posts to LinkedIn using their authorized APIs.
+                        A containerized, human-in-the-loop content automation system deployed via n8n and Docker. The workflow ingests structured topic ideas from Google Sheets, generates contextual post drafts using Google Gemini, and waits for explicit user modification and approval. Upon confirmation, it retrieves linked media assets from Google Drive and publishes directly through authorized LinkedIn APIs.
                     </p>
 
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">What It Does</h3>
                     <ul style="list-style: none; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">
-                        <li style="margin-bottom: 0.5rem;">> Watches Google Sheets for new content topics or prompts.</li>
-                        <li style="margin-bottom: 0.5rem;">> Generates engaging, professional content using tailored Gemini AI prompts.</li>
-                        <li style="margin-bottom: 0.5rem;">> Allows iterative refinement of generated drafts.</li>
-                        <li style="margin-bottom: 0.5rem;">> Posts the final reviewed content automatically to LinkedIn.</li>
+                        <li style="margin-bottom: 0.5rem;">> Ingests structured content prompts and schedule metadata from Google Sheets.</li>
+                        <li style="margin-bottom: 0.5rem;">> Generates professional drafts via Gemini AI with customized prompt instructions.</li>
+                        <li style="margin-bottom: 0.5rem;">> Implements an approval-based workflow supporting manual review and iterative refinement.</li>
+                        <li style="margin-bottom: 0.5rem;">> Fetches matching image assets from Google Drive and publishes via LinkedIn API.</li>
                     </ul>
 
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Screenshots</h3>

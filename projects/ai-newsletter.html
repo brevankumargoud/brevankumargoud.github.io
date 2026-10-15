@@ -19,8 +19,9 @@
             
             <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
                 <span class="badge">n8n</span>
-                <span class="badge">RSS</span>
-                <span class="badge">Gmail</span>
+                <span class="badge">RSS Feeds</span>
+                <span class="badge">SerpAPI</span>
+                <span class="badge">Gmail API</span>
                 <span class="badge">Gemini AI</span>
             </div>
 
@@ -30,14 +31,14 @@
                 <div>
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Overview</h3>
                     <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">
-                        This project automates the aggregation and curation of cybersecurity news. Instead of manually checking various advisory sources, the system listens to multiple RSS feeds, extracts the content, and leverages Gemini AI to write concise summaries. Finally, the automated system compiles the summaries and sends them out as a daily email report.
+                        This project automates the end-to-end aggregation, filtering, and synthesis of critical cybersecurity news and security event advisories. Instead of manually monitoring scattered advisory sources, the n8n pipeline queries curated RSS feeds (such as Hacker News and Securelist) and utilizes SerpAPI for web intelligence. Google Gemini reads and summarizes the raw articles into actionable insights, compiling them into a structured daily email digest dispatched via Gmail API.
                     </p>
 
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">What It Does</h3>
                     <ul style="list-style: none; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">
-                        <li style="margin-bottom: 0.5rem;">> Fetches the latest cyber news from curated RSS feeds automatically.</li>
-                        <li style="margin-bottom: 0.5rem;">> Summarizes lengthy articles using Gemini AI into digestible insights.</li>
-                        <li style="margin-bottom: 0.5rem;">> Sends a daily consolidated email report via Gmail API.</li>
+                        <li style="margin-bottom: 0.5rem;">> Aggregates the latest cyber news and event advisories from RSS feeds and SerpAPI.</li>
+                        <li style="margin-bottom: 0.5rem;">> Synthesizes lengthy security articles and threat bulletins using Gemini AI into concise executive summaries.</li>
+                        <li style="margin-bottom: 0.5rem;">> Dispatches a consolidated daily cybersecurity newsletter automatically via Gmail API.</li>
                     </ul>
 
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Screenshots</h3>

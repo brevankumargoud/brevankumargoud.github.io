@@ -14,10 +14,22 @@
             padding: 2rem;
             border-bottom: 1px solid var(--card-border);
             transition: all var(--transition-fast);
+            gap: 1.5rem;
         }
         .writeup-card:hover {
             background: rgba(255, 42, 42, 0.05);
             border-color: rgba(255, 42, 42, 0.3);
+        }
+        @media (max-width: 768px) {
+            .writeup-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem 1rem;
+            }
+            .writeup-card .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -25,91 +37,141 @@
     <div id="navbar-placeholder"></div>
 
     <main class="container">
-        <section class="animate-on-scroll" style="padding: 4rem 0;">
+        <section class="animate-on-scroll" style="padding: 3rem 0;">
             <p class="terminal-text" style="margin-bottom: 0.5rem;">> ./view_logs.sh</p>
             <h1 class="section-title">Writeups & Research</h1>
             
-            <p style="color: var(--text-muted); margin-bottom: 3rem;">Documenting my thought process, methodologies, and technical learnings while breaking systems.</p>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 750px; line-height: 1.7;">
+                Documenting practical vulnerability reproduction, penetration testing lab workflows, and step-by-step offensive methodology across authorized training environments.
+            </p>
 
-            <div style="display: flex; flex-direction: column;">
+            <!-- Category Filters -->
+            <div class="filter-container" role="tablist" aria-label="Write-up Categories">
+                <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true" tabindex="0">All Write-ups (6)</button>
+                <button class="filter-btn" data-filter="tryhackme" role="tab" aria-selected="false" tabindex="0">TryHackMe Rooms (3)</button>
+                <button class="filter-btn" data-filter="hackersdaddy" role="tab" aria-selected="false" tabindex="0">HackersDaddy Internship Labs (3)</button>
+            </div>
+
+            <!-- Writeups List -->
+            <div id="writeups-list" style="display: flex; flex-direction: column;">
                 
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
+                <!-- 1. Mr. Robot (TryHackMe) -->
+                <div class="writeup-card animate-on-scroll" data-category="tryhackme">
                     <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">Mr. Robot – Full Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Web Enumeration</span>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">Mr. Robot – Full Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                            <span class="badge">Web Enumeration</span>
                         </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">Chaining hidden directory enumeration, Base64 decoding, WordPress reverse shell upload, cracking MD5 hash, and SUID Nmap privilege escalation</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: TRYHACKME</p>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Chaining hidden directory enumeration, Base64 decoding, WordPress reverse shell upload, cracking MD5 password hash, and SUID Nmap privilege escalation.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-secondary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: TRYHACKME ROOMS &bull; TECH: Linux, WordPress, MD5 Cracking, SUID Nmap
+                        </p>
                     </div>
                     <a href="./writeups/mr_robot.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
                 </div>
 
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
+                <!-- 2. RootMe (TryHackMe) -->
+                <div class="writeup-card animate-on-scroll" data-category="tryhackme">
                     <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">Kingsman – Full Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Joomla Exploitation</span>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">RootMe – Full Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                            <span class="badge">Web Exploitation</span>
                         </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">Exploiting anonymous FTP leaks, Joomla template file editing for remote code execution, and Linux SUID privilege escalation</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: HACKERSDADDY INTERNSHIP</p>
-                    </div>
-                    <a href="./writeups/kingsman.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
-                </div>
-
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
-                    <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">Webmin 1.920 – Full Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Linux Exploitation</span>
-                        </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">Exploiting CVE-2019-15107 to achieve unauthenticated remote code execution and full root privilege compromise</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: HACKERSDADDY INTERNSHIP</p>
-                    </div>
-                    <a href="./writeups/webmin.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
-                </div>
-
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
-                    <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">EternalBlue – Full Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Windows Exploitation</span>
-                        </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">Exploiting SMBv1 MS17-010 (EternalBlue) to gain SYSTEM-level remote shell access on Windows 7</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: HACKERSDADDY INTERNSHIP</p>
-                    </div>
-                    <a href="./writeups/eternalblue.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
-                </div>
-
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
-                    <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">RootMe – Full Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Web Exploitation</span>
-                        </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">File upload exploitation leading to privilege escalation</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: TRYHACKME</p>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Web directory discovery with Gobuster, bypassing file upload extension filters with PHP variants, obtaining reverse shell, and SUID Python privilege escalation to root.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-secondary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: TRYHACKME ROOMS &bull; TECH: Gobuster, File Upload Bypass, Reverse Shell, SUID Python
+                        </p>
                     </div>
                     <a href="./writeups/rootme.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
                 </div>
 
-                <!-- Writeup Item -->
-                <div class="writeup-card animate-on-scroll">
+                <!-- 3. Bounty Hunter (TryHackMe) -->
+                <div class="writeup-card animate-on-scroll" data-category="tryhackme">
                     <div>
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="color: var(--text-main); font-size: 1.5rem;">Bounty Hunter – Walkthrough</h3>
-                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Privilege Escalation</span>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">Bounty Hunter – Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">TryHackMe</span>
+                            <span class="badge">Privilege Escalation</span>
                         </div>
-                        <p style="color: var(--text-muted); max-width: 600px;">Exploiting anonymous FTP, SSH bruteforcing, and vulnerable tar GTFOBins</p>
-                        <p style="font-family: monospace; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">PLATFORM: TRYHACKME</p>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Reconnaissance via anonymous FTP access, SSH credential brute-forcing, and exploiting wildcard tar checkpoint vulnerabilities (GTFOBins) for root elevation.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-secondary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: TRYHACKME ROOMS &bull; TECH: FTP Leak, SSH Brute-force, GTFOBins Tar Wildcard
+                        </p>
                     </div>
                     <a href="./writeups/bounty_hunter.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
                 </div>
+
+                <!-- 4. Webmin 1.920 (HackersDaddy) -->
+                <div class="writeup-card animate-on-scroll" data-category="hackersdaddy">
+                    <div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">Webmin 1.920 – Full Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">HackersDaddy</span>
+                            <span class="badge">Linux Exploitation</span>
+                        </div>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Exploiting CVE-2019-15107 backdoor parameter in Webmin 1.920 to achieve unauthenticated remote code execution and instant root privilege compromise in an authorized training lab.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-primary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: HACKERSDADDY INTERNSHIP LABS &bull; CVE-2019-15107 &bull; Unauthenticated RCE &bull; Metasploit
+                        </p>
+                    </div>
+                    <a href="./writeups/webmin.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
+                </div>
+
+                <!-- 5. Kingsman (HackersDaddy) -->
+                <div class="writeup-card animate-on-scroll" data-category="hackersdaddy">
+                    <div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">Kingsman – Full Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">HackersDaddy</span>
+                            <span class="badge">Joomla Exploitation</span>
+                        </div>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Exploiting anonymous FTP credential leaks, abusing Joomla administrator template editing for PHP remote code execution, and privilege escalation to root.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-primary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: HACKERSDADDY INTERNSHIP LABS &bull; Anonymous FTP &bull; Joomla CMS Template RCE &bull; SUID PrivEsc
+                        </p>
+                    </div>
+                    <a href="./writeups/kingsman.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
+                </div>
+
+                <!-- 6. EternalBlue (HackersDaddy) -->
+                <div class="writeup-card animate-on-scroll" data-category="hackersdaddy">
+                    <div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <h3 style="color: var(--text-main); font-size: 1.35rem;">EternalBlue – Full Walkthrough</h3>
+                            <span class="badge" style="border-color: var(--accent-primary); color: var(--accent-primary);">HackersDaddy</span>
+                            <span class="badge">Windows Exploitation</span>
+                        </div>
+                        <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">
+                            Vulnerability reproduction of SMBv1 MS17-010 (EternalBlue) to gain SYSTEM-level remote shell access on a target Windows 7 virtual lab machine.
+                        </p>
+                        <p style="font-family: monospace; color: var(--accent-primary); font-size: 0.85rem; margin-top: 0.75rem;">
+                            CATEGORY: HACKERSDADDY INTERNSHIP LABS &bull; MS17-010 &bull; SMBv1 Remote Code Execution &bull; SYSTEM Shell
+                        </p>
+                    </div>
+                    <a href="./writeups/eternalblue.html" class="btn" style="white-space: nowrap;"><span>Read Full &rarr;</span></a>
+                </div>
+
+            </div>
+
+            <!-- Empty State for Future Categories -->
+            <div id="writeups-empty-state" class="card" style="display: none; padding: 2.5rem; text-align: center; margin-top: 2rem; border-style: dashed;">
+                <p class="terminal-text" style="font-size: 1rem; margin-bottom: 0.75rem;">> cat writeup_records.log</p>
+                <h3 style="color: var(--text-main); margin-bottom: 0.5rem;">No Write-ups in This Category Yet</h3>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                    Additional security research walkthroughs and CTF reports are in preparation.
+                </p>
             </div>
         </section>
     </main>
@@ -120,5 +182,56 @@
     <script src="./js/components.js"></script>
     <script src="./js/cursor.js"></script>
     <script src="./js/animations.js"></script>
+    <script>
+        // Interactive Category Filtering for Write-ups
+        (function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const writeupCards = document.querySelectorAll('#writeups-list .writeup-card');
+            const emptyState = document.getElementById('writeups-empty-state');
+            const list = document.getElementById('writeups-list');
+
+            function applyFilter(category) {
+                let visibleCount = 0;
+
+                writeupCards.forEach(card => {
+                    const cardCat = card.getAttribute('data-category');
+                    if (category === 'all' || cardCat === category) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (visibleCount === 0) {
+                    emptyState.style.display = 'block';
+                    list.style.display = 'none';
+                } else {
+                    emptyState.style.display = 'none';
+                    list.style.display = 'flex';
+                }
+            }
+
+            filterBtns.forEach(btn => {
+                const handler = (e) => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-selected', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-selected', 'true');
+                    applyFilter(btn.getAttribute('data-filter'));
+                };
+
+                btn.addEventListener('click', handler);
+                btn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handler(e);
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
